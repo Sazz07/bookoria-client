@@ -6,10 +6,10 @@ import { TUser, TUserRole } from '../../types';
 
 type ProtectedLayoutProps = {
   children: React.ReactNode;
-  allowedRoles?: TUserRole | undefined;
+  allowedRoles?: TUserRole[] | undefined;
 };
 
-const ProtectedLayout = ({ children, allowedRoles }: ProtectedLayoutProps) => {
+const ProtectedRoute = ({ children, allowedRoles }: ProtectedLayoutProps) => {
   const token = useAppSelector(useCurrentToken);
   const dispatch = useAppDispatch();
 
@@ -32,4 +32,4 @@ const ProtectedLayout = ({ children, allowedRoles }: ProtectedLayoutProps) => {
   return children;
 };
 
-export default ProtectedLayout;
+export default ProtectedRoute;
