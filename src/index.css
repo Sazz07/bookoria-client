@@ -1,1 +1,23 @@
+@import 'tailwindcss';
 
+@theme {
+  --color-primary: #8c5e58;
+  --color-primary-light: #a47a74;
+  --color-primary-dark: #74463f;
+
+  --color-secondary: #f0ead6;
+  --color-secondary-light: #f7f4e8;
+  --color-secondary-dark: #e6dfc4;
+
+  --color-accent: #2d4b73;
+  --color-accent-light: #4a6a94;
+  --color-accent-dark: #1a3a5f;
+}
+
+.ant-layout {
+  background-color: #ffffff !important;
+}
+
+:where(.css-dev-only-do-not-override-1d4w9r2) a {
+  color: #000 !important;
+}
