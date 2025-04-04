@@ -24,36 +24,6 @@ const Footer = () => {
               Discover your next favorite book with our curated collection of
               bestsellers, classics, and hidden gems.
             </p>
-            {/* <div className='flex space-x-4'>
-              <Button
-                variant='ghost'
-                size='icon'
-                className='text-white rounded-full hover:text-white hover:bg-white/10'
-              >
-                <Facebook className='w-5 h-5' />
-              </Button>
-              <Button
-                variant='ghost'
-                size='icon'
-                className='text-white rounded-full hover:text-white hover:bg-white/10'
-              >
-                <Twitter className='w-5 h-5' />
-              </Button>
-              <Button
-                variant='ghost'
-                size='icon'
-                className='text-white rounded-full hover:text-white hover:bg-white/10'
-              >
-                <Instagram className='w-5 h-5' />
-              </Button>
-              <Button
-                variant='ghost'
-                size='icon'
-                className='text-white rounded-full hover:text-white hover:bg-white/10'
-              >
-                <Youtube className='w-5 h-5' />
-              </Button>
-            </div> */}
           </div>
 
           {/* Quick Links */}

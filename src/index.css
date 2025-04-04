@@ -21,3 +21,7 @@
 :where(.css-dev-only-do-not-override-1d4w9r2) a {
   color: #000 !important;
 }
+
+:where(.css-dev-only-do-not-override-1vat17k).ant-btn-color-primary {
+  box-shadow: 0 0 0 !important;
+}
