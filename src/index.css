@@ -4,6 +4,7 @@
   --color-primary: #8c5e58;
   --color-primary-light: #a47a74;
   --color-primary-dark: #74463f;
+  --color-primary-50: #fcf9f9;
 
   --color-secondary: #f0ead6;
   --color-secondary-light: #f7f4e8;
@@ -12,6 +13,7 @@
   --color-accent: #2d4b73;
   --color-accent-light: #4a6a94;
   --color-accent-dark: #1a3a5f;
+  --color-accent-50: #f0f4f9;
 }
 
 .ant-layout {

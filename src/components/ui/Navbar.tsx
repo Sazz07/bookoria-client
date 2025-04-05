@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button, Dropdown, Popover, Row, Col, MenuProps } from 'antd';
 import {
   ShoppingCartOutlined,
@@ -9,10 +9,25 @@ import {
 } from '@ant-design/icons';
 import { cn } from '../../utils/cn';
 import { bookGenre } from '../../constants/global';
+import {
+  logout,
+  selectCurrentUser,
+  selectUserProfile,
+} from '../../redux/features/auth/authSlice';
+import { useAppDispatch, useAppSelector } from '../../redux/hook';
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const profile = useAppSelector(selectUserProfile);
+  const user = useAppSelector(selectCurrentUser);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate('/login');
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -33,32 +48,10 @@ export default function Navbar() {
     };
   }, [isMenuOpen]);
 
-  const user = {
-    name: 'John Doe',
-    email: 'john.doe@example.com',
-    role: 'user',
-  };
-
   const categories = bookGenre.map((genre) => ({
     name: genre,
     href: `/books?category=${genre.toLowerCase().replace(/ /g, '-')}`,
   }));
-
-  // const userMenu = (
-  //   <Menu>
-  //     <Menu.Item key='dashboard'>
-  //       <Link to=''>Dashboard</Link>
-  //     </Menu.Item>
-  //     <Menu.Item key='orders'>
-  //       <Link to=''>My Orders</Link>
-  //     </Menu.Item>
-  //     <Menu.Item key='settings'>
-  //       <Link to=''>Settings</Link>
-  //     </Menu.Item>
-  //     <Menu.Divider />
-  //     <Menu.Item key='logout'>Logout</Menu.Item>
-  //   </Menu>
-  // );
 
   const items: MenuProps['items'] = [
     { key: '/dashboard', label: <Link to=''>Dashboard</Link> },
@@ -69,6 +62,7 @@ export default function Navbar() {
       label: (
         <Button
           type='primary'
+          onClick={handleLogout}
           style={{ backgroundColor: '#8C5E58', width: '100%' }}
         >
           Logout
@@ -152,14 +146,16 @@ export default function Navbar() {
                 icon={<ShoppingCartOutlined />}
                 className='flex justify-center items-center rounded-full'
               />
-              {user ? (
+              {profile ? (
                 <Dropdown arrow menu={{ items }} placement='bottomRight'>
                   <Button
                     type='text'
                     className='flex justify-center items-center rounded-full'
                     icon={<UserOutlined />}
                   >
-                    <span className='hidden ml-2 lg:inline'>{user.name}</span>
+                    <span className='hidden ml-2 lg:inline'>
+                      {profile?.name?.firstName}
+                    </span>
                   </Button>
                 </Dropdown>
               ) : (
@@ -271,7 +267,7 @@ export default function Navbar() {
                 }`}
                 style={{ transitionDelay: '400ms' }}
               >
-                {user ? (
+                {profile && user ? (
                   <div className='space-y-4'>
                     <div className='flex items-center'>
                       <div className='flex justify-center items-center mr-4 w-12 h-12 text-white rounded-full bg-primary'>
@@ -279,9 +275,9 @@ export default function Navbar() {
                       </div>
                       <div>
                         <p className='text-base font-medium text-gray-800'>
-                          {user.name}
+                          {profile?.fullName}
                         </p>
-                        <p className='text-sm text-gray-500'>{user.email}</p>
+                        <p className='text-sm text-gray-500'>{user?.email}</p>
                       </div>
                     </div>
 
