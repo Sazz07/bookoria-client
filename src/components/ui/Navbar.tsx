@@ -141,12 +141,14 @@ export default function Navbar() {
             </div>
 
             <div className='hidden md:flex md:items-center md:space-x-4'>
-              <Button
-                type='text'
-                icon={<ShoppingCartOutlined />}
-                className='flex justify-center items-center rounded-full'
-              />
-              {profile ? (
+              {user && (
+                <Button
+                  type='text'
+                  icon={<ShoppingCartOutlined />}
+                  className='flex justify-center items-center rounded-full'
+                />
+              )}
+              {user && profile ? (
                 <Dropdown arrow menu={{ items }} placement='bottomRight'>
                   <Button
                     type='text'
