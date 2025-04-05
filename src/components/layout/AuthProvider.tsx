@@ -5,14 +5,14 @@ import {
   selectUserProfile,
   setProfile,
 } from '../../redux/features/auth/authSlice';
-import { useGetUserProfileQuery } from '../../redux/features/auth/authApi';
+import { useGetMyProfileQuery } from '../../redux/features/profile/profile.api';
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const user = useAppSelector(selectCurrentUser);
   const profile = useAppSelector(selectUserProfile);
   const dispatch = useAppDispatch();
 
-  const { data } = useGetUserProfileQuery(undefined, {
+  const { data } = useGetMyProfileQuery(undefined, {
     skip: !user || !!profile,
   });
 

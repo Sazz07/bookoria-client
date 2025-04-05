@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import MainLayout from '../components/layout/MainLayout';
 import DashboardLayout from '../components/layout/DashboardLayout';
+import UnauthenticatedOnlyRoute from '../components/layout/UnauthenticatedOnlyRoute';
 
 // Public Pages
 import Home from '../pages/Home';
@@ -49,11 +50,19 @@ const router = createBrowserRouter([
       },
       {
         path: 'login',
-        element: <Login />,
+        element: (
+          <UnauthenticatedOnlyRoute>
+            <Login />
+          </UnauthenticatedOnlyRoute>
+        ),
       },
       {
         path: 'register',
-        element: <Register />,
+        element: (
+          <UnauthenticatedOnlyRoute>
+            <Register />
+          </UnauthenticatedOnlyRoute>
+        ),
       },
       {
         path: 'checkout',

@@ -23,6 +23,6 @@ createRoot(document.getElementById('root')!).render(
         </ConfigProvider>
       </PersistGate>
     </Provider>
-    <Toaster position='top-center' visibleToasts={1} />
+    <Toaster position='top-center' visibleToasts={1} richColors />
   </StrictMode>
 );

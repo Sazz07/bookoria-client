@@ -6,11 +6,12 @@ import { FieldValues, SubmitHandler } from 'react-hook-form';
 import { registerSchema } from '../../schemas/auth.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAppDispatch } from '../../redux/hook';
-import { useRegisterMutation } from '../../redux/features/auth/authApi';
+import { useRegisterMutation } from '../../redux/features/auth/auth.api';
 import { toast } from 'sonner';
 import { verifyToken } from '../../utils/verifyToken';
 import { TUser } from '../../types';
 import { setUser } from '../../redux/features/auth/authSlice';
+import { isApiError } from '../../utils/errorHandlers';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -36,8 +37,12 @@ const Register = () => {
       dispatch(setUser({ user: user, token: res.data?.accessToken }));
       toast.success(res.message, { id: toastId, duration: 2000 });
       navigate('/');
-    } catch {
-      toast.error('Something went wrong', { id: toastId, duration: 2000 });
+    } catch (error) {
+      if (!isApiError(error)) {
+        toast.error('Something went wrong', { id: toastId, duration: 2000 });
+      } else {
+        toast.dismiss(toastId);
+      }
     }
   };
   return (
