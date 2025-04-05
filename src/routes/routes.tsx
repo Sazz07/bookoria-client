@@ -4,9 +4,7 @@ import DashboardLayout from '../components/layout/DashboardLayout';
 import UnauthenticatedOnlyRoute from '../components/layout/UnauthenticatedOnlyRoute';
 
 // Public Pages
-import Home from '../pages/Home';
-import AllProducts from '../pages/AllProducts';
-import ProductDetails from '../pages/ProductDetails';
+import Home from '../pages/home/Home';
 import About from '../pages/About';
 import Login from '../pages/auth/Login';
 import Register from '../pages/auth/Register';
@@ -26,6 +24,8 @@ import ManageOrders from '../pages/dashboard/admin/ManageOrders';
 // Error Page
 import NotFound from '../pages/NotFound';
 import ProtectedRoute from '../components/layout/ProtectedRoute';
+import AllBooks from '../pages/books/AllBooks';
+import BookDetails from '../pages/books/BookDetails';
 
 const router = createBrowserRouter([
   {
@@ -37,12 +37,12 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: 'products',
-        element: <AllProducts />,
+        path: 'books',
+        element: <AllBooks />,
       },
       {
-        path: 'products/:productId',
-        element: <ProductDetails />,
+        path: 'books/:bookId',
+        element: <BookDetails />,
       },
       {
         path: 'about',

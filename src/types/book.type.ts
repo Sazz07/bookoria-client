@@ -18,4 +18,5 @@ export type TBook = {
   updatedAt: string;
   discountedPrice: number;
   id: string;
+  rating?: number;
 };

@@ -5,7 +5,7 @@ const bookApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getBooks: builder.query({
       query: (args) => {
-        const params = new URLSearchParams(args);
+        const params = new URLSearchParams();
 
         if (args) {
           args.forEach((item: TQueryParam) => {
