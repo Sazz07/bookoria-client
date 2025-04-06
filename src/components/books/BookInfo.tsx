@@ -8,12 +8,21 @@ import {
 } from '@ant-design/icons';
 import { TBook } from '../../types';
 import { formatDate } from '../../utils/dateUtils';
+import { useAppDispatch } from '../../redux/hook';
+import { addToCart } from '../../redux/features/cart/cartSlice';
+import { formatCurrency } from '../../utils/formatCurrency';
 
 type BookInfoProps = {
   book: TBook;
 };
 
 const BookInfo = ({ book }: BookInfoProps) => {
+  const dispatch = useAppDispatch();
+
+  const handleAddToCart = () => {
+    dispatch(addToCart(book));
+  };
+
   return (
     <div className='flex flex-col h-full'>
       <div>
@@ -79,15 +88,15 @@ const BookInfo = ({ book }: BookInfoProps) => {
             {book.discount > 0 ? (
               <div>
                 <span className='text-2xl font-bold text-primary'>
-                  ${book.discountedPrice.toFixed(2)}
+                  {formatCurrency(book.discountedPrice)}
                 </span>
                 <span className='ml-2 text-gray-500 line-through'>
-                  ${book.price.toFixed(2)}
+                  {formatCurrency(book.price)}
                 </span>
               </div>
             ) : (
               <span className='text-2xl font-bold text-primary'>
-                ${book.price.toFixed(2)}
+                {formatCurrency(book.price)}
               </span>
             )}
           </div>
@@ -113,6 +122,7 @@ const BookInfo = ({ book }: BookInfoProps) => {
             size='large'
             icon={<ShoppingCartOutlined />}
             disabled={book.stock === 0}
+            onClick={handleAddToCart}
           >
             Add to Cart
           </Button>

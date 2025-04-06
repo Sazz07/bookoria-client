@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Button, Dropdown, Popover, Row, Col, MenuProps } from 'antd';
+import { Button, Dropdown, Popover, Row, Col, MenuProps, Badge } from 'antd';
 import {
   ShoppingCartOutlined,
   CloseOutlined,
@@ -15,14 +15,21 @@ import {
   selectUserProfile,
 } from '../../redux/features/auth/authSlice';
 import { useAppDispatch, useAppSelector } from '../../redux/hook';
+import CartDrawer from '../cart/CartDrawer';
+import { selectCartItemsCount, toggleCart } from '../../redux/features/cart/cartSlice';
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const profile = useAppSelector(selectUserProfile);
   const user = useAppSelector(selectCurrentUser);
+  const cartItemsCount = useAppSelector(selectCartItemsCount);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  const showCart = () => {
+    dispatch(toggleCart(true));
+  };
 
   const handleLogout = () => {
     dispatch(logout());
@@ -142,11 +149,14 @@ export default function Navbar() {
 
             <div className='hidden md:flex md:items-center md:space-x-4'>
               {user && (
-                <Button
-                  type='text'
-                  icon={<ShoppingCartOutlined />}
-                  className='flex justify-center items-center rounded-full'
-                />
+                <Badge count={cartItemsCount} size="small" offset={[0, 3]}>
+                  <Button
+                    type='text'
+                    icon={<ShoppingCartOutlined />}
+                    className='flex justify-center items-center rounded-full'
+                    onClick={showCart}
+                  />
+                </Badge>
               )}
               {user && profile ? (
                 <Dropdown arrow menu={{ items }} placement='bottomRight'>
@@ -223,7 +233,7 @@ export default function Navbar() {
                     style={{ transitionDelay: '250ms' }}
                   >
                     <ShoppingCartOutlined className='mr-3' />
-                    Cart
+                    Cart {cartItemsCount > 0 && `(${cartItemsCount})`}
                   </button>
                 </div>
 
@@ -329,6 +339,7 @@ export default function Navbar() {
       </header>
 
       {/* Cart Drawer */}
+      <CartDrawer />
     </>
   );
 }
