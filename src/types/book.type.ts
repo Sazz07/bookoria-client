@@ -17,6 +17,8 @@ export type TBook = {
   createdAt: string;
   updatedAt: string;
   discountedPrice: number;
+  language?: string;
   id: string;
   rating?: number;
+  pageCount?: number;
 };

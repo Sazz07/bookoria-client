@@ -1,7 +1,9 @@
+import { TBook } from './book.type';
+
 export type TReview = {
   _id: string;
   user: User;
-  book: string;
+  book: string | TBook;
   rating: number;
   comment: string;
   createdAt: string;
