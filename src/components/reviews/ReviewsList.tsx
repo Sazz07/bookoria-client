@@ -1,13 +1,16 @@
-import { Empty, Pagination, Spin } from 'antd';
+import { Empty, Pagination } from 'antd';
 import { TReview, TMeta } from '../../types';
 import ReviewCard from './ReviewCard';
+import Loading from '../shared/Loading';
 
 type ReviewsListProps = {
   reviewsLoading: boolean;
-  reviewsData: {
-    data: TReview[] | undefined;
-    meta?: TMeta;
-  } | undefined;
+  reviewsData:
+    | {
+        data: TReview[] | undefined;
+        meta?: TMeta;
+      }
+    | undefined;
   reviewPage: number;
   setReviewPage: (page: number) => void;
   currentUserId?: string;
@@ -25,11 +28,7 @@ const ReviewsList = ({
   formatDate,
 }: ReviewsListProps) => {
   if (reviewsLoading) {
-    return (
-      <div className='flex justify-center items-center h-64 bg-white rounded-xl shadow-lg'>
-        <Spin size='large' />
-      </div>
-    );
+    return <Loading />;
   }
 
   if (!reviewsData?.data || reviewsData.data.length === 0) {
@@ -68,7 +67,6 @@ const ReviewsList = ({
             total={reviewsData.meta.total}
             pageSize={4}
             onChange={(page) => setReviewPage(page)}
-            className='bg-white px-4 py-2 rounded-lg shadow-md'
           />
         </div>
       )}

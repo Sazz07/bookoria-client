@@ -44,7 +44,6 @@ const ReviewSummary = ({
 
       <Divider className='my-4' />
 
-      {/* Write a review section */}
       {currentUser ? (
         hasUserReviewed ? (
           <div className='p-5 bg-blue-50 rounded-xl border border-blue-100'>

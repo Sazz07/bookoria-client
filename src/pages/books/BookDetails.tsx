@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Row, Col, Spin, Empty, Breadcrumb } from 'antd';
+import { Row, Col, Empty, Image } from 'antd';
 import { HomeOutlined, ReadOutlined } from '@ant-design/icons';
 import { useGetBookQuery } from '../../redux/features/book/book.api';
 import {
@@ -17,6 +17,9 @@ import BookInfo from '../../components/books/BookInfo';
 import ReviewSummary from '../../components/reviews/ReviewSummary';
 import ReviewsList from '../../components/reviews/ReviewsList';
 import EditReviewModal from '../../components/reviews/EditReviewModal';
+import Loading from '../../components/shared/Loading';
+import PageBreadcrumb from '../../components/shared/PageBreadcrumb';
+import { formatDate } from '../../utils/dateUtils';
 
 const BookDetails = () => {
   const { bookId } = useParams();
@@ -143,20 +146,10 @@ const BookDetails = () => {
     }
   };
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
-  };
+  // Remove the formatDate function from here
 
   if (bookLoading) {
-    return (
-      <div className='flex justify-center items-center min-h-screen'>
-        <Spin size='large' />
-      </div>
-    );
+    return <Loading fullScreen />;
   }
 
   if (!book) {
@@ -169,42 +162,50 @@ const BookDetails = () => {
 
   return (
     <div className='container mx-auto px-4 py-8'>
-      <Breadcrumb style={{ marginBottom: '16px' }}>
-        <Breadcrumb.Item href='/'>
-          <HomeOutlined /> Home
-        </Breadcrumb.Item>
-        <Breadcrumb.Item href='/books'>
-          <ReadOutlined /> Books
-        </Breadcrumb.Item>
-        <Breadcrumb.Item>{book.title}</Breadcrumb.Item>
-      </Breadcrumb>
+      <PageBreadcrumb
+        items={[
+          {
+            title: 'Home',
+            href: '/',
+            icon: <HomeOutlined />,
+          },
+          {
+            title: 'Books',
+            href: '/books',
+            icon: <ReadOutlined />,
+          },
+          {
+            title: book.title,
+          },
+        ]}
+      />
 
       {/* Book Details Section */}
-      <div className='bg-white rounded-lg shadow-md overflow-hidden'>
+      <div className='bg-white rounded-lg shadow-md overflow-hidden mt-4'>
         <Row gutter={[24, 24]} className='p-6'>
           {/* Book Cover Image */}
           <Col xs={24} sm={24} md={10} lg={8} className='flex justify-center'>
             <div className='relative w-full max-w-[300px]'>
-              <img
+              <Image
                 src={
                   book.coverImage ||
                   'https://placehold.co/300x450/e2e8f0/1e293b?text=No+Image'
                 }
                 alt={book.title}
-                className='w-full h-auto object-cover rounded-md shadow-lg'
-                onError={(e) => {
-                  const target = e.target as HTMLImageElement;
-                  target.src =
-                    'https://placehold.co/300x450/e2e8f0/1e293b?text=No+Image';
+                className='rounded-md shadow-lg '
+                style={{ objectFit: 'cover' }}
+                fallback='https://placehold.co/300x450/e2e8f0/1e293b?text=No+Image'
+                preview={{
+                  mask: 'Preview',
                 }}
               />
               {book.discount > 0 && (
-                <div className='absolute top-0 right-0 bg-red-500 text-white px-2 py-1 rounded-bl-lg font-bold'>
+                <div className='absolute top-0 right-0 bg-red-500 text-white px-2 py-1 rounded-bl-lg font-bold z-10'>
                   {book.discount}% OFF
                 </div>
               )}
               {book.featured && (
-                <div className='absolute top-0 left-0 bg-amber-500 text-white px-2 py-1 rounded-br-lg font-bold'>
+                <div className='absolute top-0 left-0 bg-amber-500 text-white px-2 py-1 rounded-br-lg font-bold z-10'>
                   Featured
                 </div>
               )}
@@ -213,7 +214,7 @@ const BookDetails = () => {
 
           {/* Book Information */}
           <Col xs={24} sm={24} md={14} lg={16}>
-            <BookInfo book={book} formatDate={formatDate} />
+            <BookInfo book={book} />
           </Col>
         </Row>
       </div>
@@ -249,7 +250,7 @@ const BookDetails = () => {
               setReviewPage={setReviewPage}
               currentUserId={currentUser?.userId}
               onEditReview={handleEditReview}
-              formatDate={formatDate}
+              formatDate={formatDate} // Pass the imported utility function
             />
           </div>
         </div>

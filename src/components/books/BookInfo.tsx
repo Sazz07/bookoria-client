@@ -7,13 +7,13 @@ import {
   TagOutlined,
 } from '@ant-design/icons';
 import { TBook } from '../../types';
+import { formatDate } from '../../utils/dateUtils';
 
 type BookInfoProps = {
   book: TBook;
-  formatDate: (date: string) => string;
 };
 
-const BookInfo = ({ book, formatDate }: BookInfoProps) => {
+const BookInfo = ({ book }: BookInfoProps) => {
   return (
     <div className='flex flex-col h-full'>
       <div>
