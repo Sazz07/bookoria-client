@@ -12,7 +12,6 @@ import Register from '../pages/auth/Register';
 import Checkout from '../pages/Checkout';
 import UserDashboard from '../pages/dashboard/UserDashboard';
 
-import MyOrders from '../pages/dashboard/user/MyOrders';
 import ProfileSettings from '../pages/dashboard/user/ProfileSettings';
 
 // Admin Dashboard Routes
@@ -26,6 +25,7 @@ import NotFound from '../pages/NotFound';
 import ProtectedRoute from '../components/layout/ProtectedRoute';
 import AllBooks from '../pages/books/AllBooks';
 import BookDetails from '../pages/books/BookDetails';
+import MyOrders from '../pages/dashboard/MyOrders';
 
 const router = createBrowserRouter([
   {
