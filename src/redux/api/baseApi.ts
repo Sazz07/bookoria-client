@@ -32,7 +32,17 @@ const baseQueryWithRefreshToken: BaseQueryFn<
 > = async (args, api, extraOptions): Promise<any> => {
   let result = await baseQuery(args, api, extraOptions);
 
-  if (result.error?.status === 404 || result.error?.status === 403) {
+  // Check if this is a payment verification request
+  const isPaymentVerification =
+    typeof args === 'object' && args.url
+      ? args.url.includes('/orders/verify')
+      : false;
+
+  // Only show error toasts for non-payment verification requests
+  if (
+    (result.error?.status === 404 || result.error?.status === 403) &&
+    !isPaymentVerification
+  ) {
     toast.error((result.error?.data as { message: string }).message);
   }
 

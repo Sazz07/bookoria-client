@@ -8,6 +8,7 @@ type TInputProps = {
   size?: SizeType;
   label?: string;
   placeholder?: string;
+  disable?: boolean;
 };
 const AppInput = ({
   type,
@@ -15,6 +16,7 @@ const AppInput = ({
   size = 'large',
   label,
   placeholder,
+  disable,
 }: TInputProps) => {
   return (
     <div style={{ marginBottom: '20px' }}>
@@ -28,6 +30,7 @@ const AppInput = ({
               id={name}
               size={size}
               placeholder={placeholder}
+              disabled={disable}
             />
             {error && <small style={{ color: 'red' }}>{error.message}</small>}
           </Form.Item>

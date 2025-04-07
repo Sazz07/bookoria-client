@@ -9,3 +9,13 @@ export type TUser = {
   iat: number;
   exp: number;
 };
+
+export type TProfile = {
+  name: {
+    firstName: string;
+    middleName?: string;
+    lastName: string;
+  };
+  image?: string;
+  fullName: string;
+};

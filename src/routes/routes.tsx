@@ -72,6 +72,10 @@ const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
+      {
+        path: 'payment-verification',
+        element: <Checkout />,
+      },
     ],
   },
   {

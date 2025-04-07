@@ -1,19 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
-import { TUser } from '../../../types';
+import { TProfile, TUser } from '../../../types';
 
 type TAuthState = {
   user: TUser | null;
   token: string | null;
-  profile: {
-    name: {
-      firstName: string;
-      middleName?: string;
-      lastName: string;
-    };
-    image?: string;
-    fullName: string;
-  } | null;
+  profile: TProfile | null;
 };
 
 const initialState: TAuthState = {

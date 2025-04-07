@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export type TOrder = {
   _id: string;
   user: User;
   orderItems: TOrderItem[];
-  shippingAddress: ShippingAddress;
+  shippingAddress: TShippingAddress;
   paymentInfo: PaymentInfo;
   subtotal: number;
   shippingCost: number;
@@ -48,7 +49,7 @@ export type Book = {
   id: string;
 };
 
-export type ShippingAddress = {
+export type TShippingAddress = {
   name: string;
   address: string;
   city: string;
@@ -69,3 +70,43 @@ export type Transaction = {
   transactionStatus: string;
   _id: string;
 };
+
+export interface TPaymentVerificationResponse {
+  success: boolean;
+  message: string;
+  data: TPaymentVerificationData[];
+}
+
+export interface TPaymentVerificationData {
+  id: number;
+  order_id: string;
+  currency: string;
+  amount: number;
+  payable_amount: number;
+  discsount_amount: any;
+  disc_percent: number;
+  received_amount: string;
+  usd_amt: number;
+  usd_rate: number;
+  is_verify: number;
+  card_holder_name: string;
+  card_number: string;
+  phone_no: string;
+  bank_trx_id: string;
+  invoice_no: string;
+  bank_status: string;
+  customer_order_id: string;
+  sp_code: string;
+  sp_message: string;
+  name: string;
+  email: string;
+  address: string;
+  city: string;
+  value1: any;
+  value2: any;
+  value3: any;
+  value4: any;
+  transaction_status: any;
+  method: string;
+  date_time: string;
+}

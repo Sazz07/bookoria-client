@@ -33,3 +33,11 @@ export const BOOK_GENRE = {
 } as const;
 
 export const bookGenre = Object.values(BOOK_GENRE);
+
+export const countryOptions = [
+  { value: 'BD', label: 'Bangladesh' },
+  { value: 'US', label: 'United States' },
+  { value: 'UK', label: 'United Kingdom' },
+  { value: 'CA', label: 'Canada' },
+  { value: 'AU', label: 'Australia' },
+];

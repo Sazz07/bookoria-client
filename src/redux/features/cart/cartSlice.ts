@@ -1,14 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
-import { TBook } from '../../../types';
-
-export type CartItem = {
-  book: TBook;
-  quantity: number;
-};
+import { TBook, TCartItem } from '../../../types';
 
 type CartState = {
-  items: CartItem[];
+  items: TCartItem[];
   isOpen: boolean;
 };
 
@@ -53,21 +48,27 @@ const cartSlice = createSlice({
       state.items = [];
     },
     toggleCart: (state, action: PayloadAction<boolean | undefined>) => {
-      state.isOpen = action.payload !== undefined ? action.payload : !state.isOpen;
+      state.isOpen =
+        action.payload !== undefined ? action.payload : !state.isOpen;
     },
   },
 });
 
-export const { addToCart, removeFromCart, updateQuantity, clearCart, toggleCart } =
-  cartSlice.actions;
+export const {
+  addToCart,
+  removeFromCart,
+  updateQuantity,
+  clearCart,
+  toggleCart,
+} = cartSlice.actions;
 
 export const selectCartItems = (state: RootState) => state.cart.items;
 export const selectCartItemsCount = (state: RootState) =>
   state.cart.items.reduce((total, item) => total + item.quantity, 0);
 export const selectCartTotal = (state: RootState) =>
   state.cart.items.reduce(
-    (total, item) => 
-      total + (item.book.discountedPrice || item.book.price) * item.quantity, 
+    (total, item) =>
+      total + (item.book.discountedPrice || item.book.price) * item.quantity,
     0
   );
 export const selectIsCartOpen = (state: RootState) => state.cart.isOpen;

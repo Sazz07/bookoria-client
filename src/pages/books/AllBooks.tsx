@@ -115,11 +115,6 @@ const AllBooks = () => {
     if (pageSize) setLimit(pageSize);
   };
 
-  const handleAddToCart = (book: TBook) => {
-    console.log(book.title);
-  };
-
-  // Reset all filters
   const resetFilters = () => {
     setSearchTerm('');
     setSelectedGenres([]);
@@ -237,7 +232,8 @@ const AllBooks = () => {
               <Row gutter={[12, 20]}>
                 {booksData.data.map((book: TBook) => (
                   <Col xs={12} sm={8} md={6} lg={6} key={book._id}>
-                    <BookCard book={book} onAddToCart={handleAddToCart} />
+                    {/* Remove the onAddToCart prop */}
+                    <BookCard book={book} />
                   </Col>
                 ))}
               </Row>

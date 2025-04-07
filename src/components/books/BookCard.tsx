@@ -32,30 +32,31 @@ const BookCard = ({ book }: BookCardProps) => {
               src={
                 book.coverImage || 'https://placehold.co/300x450?text=No+Image'
               }
-              className='absolute inset-0 w-full h-full object-cover transition-transform duration-300 hover:scale-105'
+              className='object-cover absolute inset-0 w-full h-full transition-transform duration-300 hover:scale-105'
             />
             {book.discount > 0 && (
-              <div className='absolute top-0 right-0 bg-red-500 text-white px-2 py-1 text-xs font-bold'>
+              <div className='absolute top-0 right-0 px-2 py-1 text-xs font-bold text-white bg-red-500'>
                 {book.discount}% OFF
               </div>
             )}
             {book.featured && (
-              <div className='absolute top-0 left-0 bg-amber-500 text-white px-2 py-1 text-xs font-bold'>
+              <div className='absolute top-0 left-0 px-2 py-1 text-xs font-bold text-white bg-amber-500'>
                 Featured
               </div>
             )}
           </div>
         }
-        className='h-full flex flex-col'
-        bodyStyle={{ flex: 1, display: 'flex', flexDirection: 'column' }}
+        className='flex flex-col h-full'
         actions={[
           <Button
             type='primary'
             icon={<ShoppingCartOutlined />}
             disabled={book.stock === 0}
             onClick={handleAddToCart}
+            className='flex items-center justify-center mx-auto w-[90%] font-medium'
+            size='middle'
           >
-            Add to Cart
+            {book.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
           </Button>,
         ]}
       >
@@ -63,7 +64,7 @@ const BookCard = ({ book }: BookCardProps) => {
           title={book.title}
           description={
             <div className='flex flex-col h-full'>
-              <p className='text-gray-500 mb-2'>{book.author}</p>
+              <p className='mb-2 text-gray-500'>{book.author}</p>
               <div className='flex items-center mb-2'>
                 <Rate
                   disabled
