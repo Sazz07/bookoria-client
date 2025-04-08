@@ -43,7 +43,7 @@ const OrderConfirmation = ({
         </>
       ) : isPaymentFailed ? (
         <>
-          <CloseCircleOutlined className='mb-4 text-6xl !text-red-500' />
+          <CloseCircleOutlined className='!mb-4 !text-6xl !text-red-500' />
           <Title level={3}>Payment Failed</Title>
           <Text className='block mb-4'>
             Your payment could not be processed. Please try again or choose a
@@ -56,7 +56,7 @@ const OrderConfirmation = ({
         </>
       ) : (
         <>
-          <CheckCircleOutlined className='mb-4 text-6xl !text-green-500' />
+          <CheckCircleOutlined className='!mb-4 !text-6xl !text-green-500' />
           <Title level={3}>Thank You for Your Order!</Title>
           <Text className='block mb-4'>
             {paymentMethod === 'Cash On Delivery'
@@ -98,11 +98,11 @@ const OrderConfirmation = ({
         </>
       )}
 
-      <Text strong className='block mb-6'>
+      <Text strong className='!block !mb-6'>
         Order ID: {orderId}
       </Text>
 
-      <Space direction='vertical' className='w-full sm:flex-row sm:w-auto'>
+      <Space direction='vertical' className='!w-full sm:!flex-row sm:!w-auto'>
         <Button size='large' onClick={onContinueShopping}>
           Continue Shopping
         </Button>

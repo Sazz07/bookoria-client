@@ -215,7 +215,7 @@ const Checkout = () => {
         <div
           className={cn('lg:col-span-2', currentStep === 3 && 'lg:col-span-3')}
         >
-          <Card className='mb-6 shadow-sm'>
+          <Card className='shadow-sm'>
             {currentStep === 0 && (
               <CartReview
                 cartItems={cartItems}

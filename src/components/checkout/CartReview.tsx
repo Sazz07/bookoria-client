@@ -29,16 +29,16 @@ const CartReview = ({ cartItems, onProceed }: CartReviewProps) => {
               <div className='flex-1'>
                 <div className='flex flex-col justify-between sm:flex-row'>
                   <div>
-                    <Text strong className='text-lg'>
+                    <Text strong className='!text-lg'>
                       {item.book.title}
                     </Text>
-                    <Text type='secondary' className='block'>
+                    <Text type='secondary' className='!block'>
                       by {item.book.author}
                     </Text>
                     <Badge
                       count={item.quantity}
                       color='blue'
-                      className='mt-2'
+                      className='!mt-2'
                     />
                   </div>
                   <div className='mt-2 text-left sm:text-right sm:mt-0'>
@@ -49,12 +49,12 @@ const CartReview = ({ cartItems, onProceed }: CartReviewProps) => {
                             item.book.discountedPrice * item.quantity
                           )}
                         </Text>
-                        <Text delete type='secondary' className='block'>
+                        <Text delete type='secondary' className='!block'>
                           {formatCurrency(item.book.price * item.quantity)}
                         </Text>
                       </div>
                     ) : (
-                      <Text strong className='text-lg text-primary'>
+                      <Text strong className='!text-lg !text-primary'>
                         {formatCurrency(item.book.price * item.quantity)}
                       </Text>
                     )}

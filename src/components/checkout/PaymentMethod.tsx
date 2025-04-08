@@ -38,13 +38,9 @@ const PaymentMethod = ({
           onChange={(e) => setPaymentMethod(e.target.value)}
           className='mt-2 w-full'
         >
-          <Space direction='vertical' className='w-full'>
+          <Space direction='vertical'>
             {paymentMethods.map((method) => (
-              <Radio
-                key={method.value}
-                value={method.value}
-                className='p-3 w-full rounded-md border'
-              >
+              <Radio key={method.value} value={method.value}>
                 {method.label}
               </Radio>
             ))}
@@ -58,7 +54,7 @@ const PaymentMethod = ({
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
           placeholder='Special instructions for your order'
-          className='p-3 mt-2 w-full rounded-md border'
+          className='p-3 mt-2 w-full rounded-md border border-gray-300'
           rows={4}
         />
       </div>
