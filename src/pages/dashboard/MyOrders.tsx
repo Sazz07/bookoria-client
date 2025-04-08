@@ -73,7 +73,7 @@ const MyOrders = () => {
   }
 
   return (
-    <div className='container px-4 py-8 mx-auto'>
+    <div className='container py-4 mx-auto'>
       <Title level={3} className='mb-6 !text-primary'>
         My Orders
       </Title>

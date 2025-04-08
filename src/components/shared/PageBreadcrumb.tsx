@@ -15,25 +15,31 @@ type PageBreadcrumbProps = {
 };
 
 const PageBreadcrumb = ({ items, className }: PageBreadcrumbProps) => {
-  return (
-    <Breadcrumb className={cn('mb-4', className)}>
-      {items.map((item, index) => (
-        <Breadcrumb.Item key={index}>
-          {item.href && index !== items.length - 1 ? (
-            <Link to={item.href}>
-              {item.icon && <span className='mr-1'>{item.icon}</span>}
-              {item.title}
-            </Link>
-          ) : (
-            <>
-              {item.icon && <span className='mr-1'>{item.icon}</span>}
-              <span className='font-medium'>{item.title}</span>
-            </>
-          )}
-        </Breadcrumb.Item>
-      ))}
-    </Breadcrumb>
-  );
+  const antdItems = items.map((item, index) => {
+    const isLast = index === items.length - 1;
+
+    const titleElement = (
+      <>
+        {item.icon && <span className='mr-1'>{item.icon}</span>}
+        {isLast ? (
+          <span className='font-medium'>{item.title}</span>
+        ) : (
+          item.title
+        )}
+      </>
+    );
+
+    return {
+      title:
+        item.href && !isLast ? (
+          <Link to={item.href}>{titleElement}</Link>
+        ) : (
+          titleElement
+        ),
+    };
+  });
+
+  return <Breadcrumb className={cn('mb-4', className)} items={antdItems} />;
 };
 
 export default PageBreadcrumb;
