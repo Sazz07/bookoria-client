@@ -17,31 +17,36 @@ import {
   CreditCardOutlined,
   FileTextOutlined,
   ClockCircleOutlined,
+  HomeOutlined,
+  DashboardOutlined,
 } from '@ant-design/icons';
 import { formatCurrency } from '../../utils/formatCurrency';
 import { Link } from 'react-router-dom';
 import { formatDate } from '../../utils/dateUtils';
 import Loading from '../../components/shared/Loading';
 import { getPaymentStatusColor } from '../../utils/getPaymentStatusColor';
+import { getStatusColor } from '../../utils/getStatusColor';
+import PageBreadcrumb from '../../components/shared/PageBreadcrumb';
 
 const { Title, Text } = Typography;
 
-const getStatusColor = (status: string) => {
-  switch (status) {
-    case 'Pending':
-      return 'processing';
-    case 'Processing':
-      return 'warning';
-    case 'Shipped':
-      return 'blue';
-    case 'Delivered':
-      return 'success';
-    case 'Cancelled':
-      return 'error';
-    default:
-      return 'default';
-  }
-};
+const breadcrumbItems = [
+  {
+    title: 'Home',
+    href: '/',
+    icon: <HomeOutlined />,
+  },
+  {
+    title: 'Dashboard',
+    href: '/dashboard',
+    icon: <DashboardOutlined />,
+  },
+  {
+    title: 'My Orders',
+    href: '/dashboard/my-orders',
+    icon: <ShoppingOutlined />,
+  },
+];
 
 const MyOrders = () => {
   const [page, setPage] = useState(1);
@@ -74,7 +79,8 @@ const MyOrders = () => {
 
   return (
     <div className='container py-4 mx-auto'>
-      <Title level={3} className='mb-6 !text-primary'>
+      <PageBreadcrumb items={breadcrumbItems} />
+      <Title level={3} className='!my-4 !text-accent'>
         My Orders
       </Title>
 
@@ -97,7 +103,7 @@ const MyOrders = () => {
                   </div>
                 </div>
 
-                <div className='flex flex-wrap gap-3'>
+                <div className='flex flex-wrap gap-3 items-center'>
                   <Badge>
                     <Tag
                       color={getStatusColor(order.status)}
@@ -114,6 +120,11 @@ const MyOrders = () => {
                       {order.paymentInfo?.status}
                     </Tag>
                   </Badge>
+                  <Link to={`/dashboard/my-orders/${order._id}`}>
+                    <Button type='primary' size='small'>
+                      View Details
+                    </Button>
+                  </Link>
                 </div>
               </div>
             </div>

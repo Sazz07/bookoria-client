@@ -26,6 +26,7 @@ import ProtectedRoute from '../components/layout/ProtectedRoute';
 import AllBooks from '../pages/books/AllBooks';
 import BookDetails from '../pages/books/BookDetails';
 import MyOrders from '../pages/dashboard/MyOrders';
+import OrderDetails from '../pages/dashboard/OrderDetails';
 
 const router = createBrowserRouter([
   {
@@ -139,6 +140,10 @@ const router = createBrowserRouter([
             <ManageOrders />
           </ProtectedRoute>
         ),
+      },
+      {
+        path: 'my-orders/:id',
+        element: <OrderDetails />,
       },
     ],
   },

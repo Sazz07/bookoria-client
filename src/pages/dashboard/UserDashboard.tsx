@@ -17,6 +17,8 @@ import {
   UserOutlined,
   BookOutlined,
   ClockCircleOutlined,
+  HomeOutlined,
+  DashboardOutlined,
 } from '@ant-design/icons';
 import { useGetMyOrdersQuery } from '../../redux/features/order/order.api';
 import { useAppSelector } from '../../redux/hook';
@@ -47,9 +49,11 @@ const UserDashboard = () => {
     {
       title: 'Home',
       href: '/',
+      icon: <HomeOutlined />,
     },
     {
       title: 'Dashboard',
+      icon: <DashboardOutlined />,
     },
   ];
 
@@ -68,7 +72,7 @@ const UserDashboard = () => {
       <PageBreadcrumb items={breadcrumbItems} />
 
       <div className='mb-6 welcome-section'>
-        <Title level={2} className='!text-primary !mb-2'>
+        <Title level={2} className='!text-accent !my-4'>
           Welcome back, {profile?.name.firstName}!
         </Title>
         <Text type='secondary'>
@@ -136,11 +140,11 @@ const UserDashboard = () => {
             dataSource={ordersData.data}
             renderItem={(order) => (
               <List.Item
-              // actions={[
-              //   <Link to={`/dashboard/my-orders`} key='view'>
-              //     <Button type='link'>View Details</Button>
-              //   </Link>,
-              // ]}
+                actions={[
+                  <Link to={`/dashboard/my-orders/${order?._id}`} key='view'>
+                    <Button type='link'>View Details</Button>
+                  </Link>,
+                ]}
               >
                 <List.Item.Meta
                   avatar={

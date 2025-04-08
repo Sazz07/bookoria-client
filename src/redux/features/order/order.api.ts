@@ -66,6 +66,9 @@ const orderApi = baseApi.injectEndpoints({
         method: 'GET',
       }),
       providesTags: ['Order'],
+      transformResponse: (response: TResponseRedux<TOrder>) => {
+        return response.data;
+      },
     }),
     updateOrderStatus: builder.mutation({
       query: ({ id, body }) => ({
