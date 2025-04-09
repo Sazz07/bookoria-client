@@ -8,6 +8,8 @@ const profileApi = baseApi.injectEndpoints({
         method: 'GET',
       }),
       providesTags: ['Profile'],
+
+      keepUnusedDataFor: 0,
     }),
     editMyProfile: builder.mutation({
       query: (body) => ({

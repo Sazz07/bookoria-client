@@ -26,6 +26,7 @@ const authSlice = createSlice({
     setProfile: (state, action) => {
       state.profile = action.payload;
     },
+
     logout: (state) => {
       state.user = null;
       state.token = null;

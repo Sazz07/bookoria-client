@@ -11,11 +11,27 @@ export type TUser = {
 };
 
 export type TProfile = {
-  name: {
-    firstName: string;
-    middleName?: string;
-    lastName: string;
-  };
+  name: TName;
   image?: string;
   fullName: string;
+};
+
+export interface TUserData {
+  name: TName;
+  _id: string;
+  email: string;
+  image?: string;
+  role: string;
+  isBlocked: boolean;
+  isDeleted: boolean;
+  createdAt: string;
+  updatedAt: string;
+  fullName: string;
+  id: string;
+}
+
+export type TName = {
+  firstName: string;
+  middleName?: string;
+  lastName: string;
 };

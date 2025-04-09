@@ -1,4 +1,4 @@
-import { TQueryParam, TResponseRedux, TUser } from '../../../types';
+import { TQueryParam, TResponseRedux, TUserData } from '../../../types';
 import { baseApi } from '../../api/baseApi';
 
 const adminUserManagement = baseApi.injectEndpoints({
@@ -20,7 +20,7 @@ const adminUserManagement = baseApi.injectEndpoints({
         };
       },
       providesTags: ['User'],
-      transformResponse: (response: TResponseRedux<TUser[]>) => {
+      transformResponse: (response: TResponseRedux<TUserData[]>) => {
         return {
           data: response.data,
           meta: response.meta,

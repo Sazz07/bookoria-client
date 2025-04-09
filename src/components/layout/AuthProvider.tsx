@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../redux/hook';
 import {
   selectCurrentUser,
-  selectUserProfile,
   setProfile,
 } from '../../redux/features/auth/authSlice';
 import { useGetMyProfileQuery } from '../../redux/features/profile/profile.api';
@@ -10,34 +9,41 @@ import Loading from '../shared/Loading';
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const user = useAppSelector(selectCurrentUser);
-  const profile = useAppSelector(selectUserProfile);
   const dispatch = useAppDispatch();
   const [isInitializing, setIsInitializing] = useState(true);
 
   const { data, isLoading, isError } = useGetMyProfileQuery(undefined, {
-    skip: !user || !!profile,
+    skip: !user,
+    refetchOnMountOrArgChange: true,
   });
 
   useEffect(() => {
-    if (!user || (data && profile) || isError) {
+    if (!user) {
+      dispatch(setProfile(null));
       setIsInitializing(false);
     }
-  }, [user, data, profile, isError]);
+  }, [user, dispatch]);
 
   useEffect(() => {
-    if (data && !profile) {
+    if (data?.data && user) {
       dispatch(
         setProfile({
-          name: data?.data.name,
-          image: data?.data.image,
-          fullName: data?.data.fullName,
+          name: data.data.name,
+          image: data.data.image,
+          fullName: data.data.fullName,
         })
       );
       setIsInitializing(false);
     }
-  }, [data, profile, dispatch]);
+  }, [data, dispatch, user]);
 
-  if (isInitializing && user && !profile && isLoading) {
+  useEffect(() => {
+    if (isError) {
+      setIsInitializing(false);
+    }
+  }, [isError]);
+
+  if (isInitializing && user && isLoading) {
     return <Loading fullScreen />;
   }
 

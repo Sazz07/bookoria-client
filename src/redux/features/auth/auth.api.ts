@@ -8,6 +8,7 @@ const authApi = baseApi.injectEndpoints({
         method: 'POST',
         body,
       }),
+      invalidatesTags: ['Profile', 'User'],
     }),
     login: builder.mutation({
       query: (body) => ({
@@ -15,12 +16,14 @@ const authApi = baseApi.injectEndpoints({
         method: 'POST',
         body,
       }),
+      invalidatesTags: ['Profile', 'User'],
     }),
     logout: builder.mutation({
       query: () => ({
         url: '/auth/logout',
         method: 'POST',
       }),
+      invalidatesTags: ['Profile', 'User', 'Cart', 'Order'],
     }),
     changePassword: builder.mutation({
       query: (body) => ({

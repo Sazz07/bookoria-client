@@ -16,7 +16,11 @@ import {
 } from '../../redux/features/auth/authSlice';
 import { useAppDispatch, useAppSelector } from '../../redux/hook';
 import CartDrawer from '../cart/CartDrawer';
-import { selectCartItemsCount, toggleCart } from '../../redux/features/cart/cartSlice';
+import {
+  selectCartItemsCount,
+  toggleCart,
+} from '../../redux/features/cart/cartSlice';
+import { useLoginMutation } from '../../redux/features/auth/auth.api';
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -26,13 +30,15 @@ export default function Navbar() {
   const cartItemsCount = useAppSelector(selectCartItemsCount);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const [logoutMutation] = useLoginMutation();
 
   const showCart = () => {
     dispatch(toggleCart(true));
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     dispatch(logout());
+    await logoutMutation(undefined).unwrap();
     navigate('/login');
   };
 
@@ -149,7 +155,7 @@ export default function Navbar() {
 
             <div className='hidden md:flex md:items-center md:space-x-4'>
               {user && (
-                <Badge count={cartItemsCount} size="small" offset={[0, 3]}>
+                <Badge count={cartItemsCount} size='small' offset={[0, 3]}>
                   <Button
                     type='text'
                     icon={<ShoppingCartOutlined />}

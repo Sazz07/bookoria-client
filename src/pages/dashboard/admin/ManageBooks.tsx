@@ -88,6 +88,20 @@ const ManageBooks = () => {
   const [editBook, { isLoading: isEditing }] = useEditBookMutation();
   const [deleteBook, { isLoading: isDeleting }] = useDeleteBookMutation();
 
+  const tableData = booksData?.data?.map(
+    ({ _id, title, author, genre, price, stock, coverImage, ...rest }) => ({
+      key: _id,
+      _id,
+      title,
+      author,
+      genre,
+      price,
+      stock,
+      coverImage,
+      ...rest,
+    })
+  );
+
   const handleAddBook = async (data: FieldValues) => {
     try {
       const result = await createBook(data).unwrap();
@@ -152,11 +166,10 @@ const ManageBooks = () => {
   const columns: ColumnsType<TBook> = [
     {
       title: 'Cover',
-      dataIndex: 'coverImage',
       key: 'coverImage',
-      render: (coverImage: string) => (
+      render: (item: TBook) => (
         <img
-          src={coverImage || 'https://placehold.co/60x90?text=No+Image'}
+          src={item.coverImage || 'https://placehold.co/60x90?text=No+Image'}
           alt='Book Cover'
           style={{ width: 60, height: 90, objectFit: 'cover' }}
         />
@@ -258,19 +271,19 @@ const ManageBooks = () => {
     {
       title: 'Actions',
       key: 'actions',
-      render: (_: unknown, record: TBook) => (
+      render: (item: TBook) => (
         <Space size='middle'>
           <Button
             icon={<EditOutlined />}
             onClick={() => {
-              setSelectedBook(record);
+              setSelectedBook(item);
               setIsEditModalOpen(true);
             }}
           />
           <Popconfirm
             title='Delete this book?'
             description='This action cannot be undone.'
-            onConfirm={() => handleDeleteBook(record._id)}
+            onConfirm={() => handleDeleteBook(item._id)}
             okText='Yes'
             cancelText='No'
           >
@@ -313,8 +326,7 @@ const ManageBooks = () => {
 
         <Table
           columns={columns}
-          dataSource={booksData?.data}
-          rowKey='_id'
+          dataSource={tableData}
           loading={isLoading}
           pagination={false}
           scroll={{ x: 'max-content' }}
