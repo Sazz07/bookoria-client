@@ -44,7 +44,7 @@ const CartReview = ({ cartItems, onProceed }: CartReviewProps) => {
                   <div className='mt-2 text-left sm:text-right sm:mt-0'>
                     {item.book.discount > 0 ? (
                       <div>
-                        <Text strong className='text-lg text-primary'>
+                        <Text strong className='!text-lg !text-primary'>
                           {formatCurrency(
                             item.book.discountedPrice * item.quantity
                           )}

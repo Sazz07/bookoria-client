@@ -41,3 +41,11 @@ export const countryOptions = [
   { value: 'CA', label: 'Canada' },
   { value: 'AU', label: 'Australia' },
 ];
+
+export const orderStatusOptions = [
+  { value: 'Pending', color: 'orange' },
+  { value: 'Processing', color: 'blue' },
+  { value: 'Shipped', color: 'purple' },
+  { value: 'Delivered', color: 'green' },
+  { value: 'Cancelled', color: 'red' },
+];

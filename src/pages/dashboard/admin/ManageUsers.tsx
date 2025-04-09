@@ -221,7 +221,9 @@ const ManageUsers = () => {
       <PageBreadcrumb items={breadcrumbItems} />
 
       <div className='flex justify-between items-center mb-6'>
-        <Title level={2}>Manage Users</Title>
+        <Title level={2} className='!text-accent'>
+          Manage Users
+        </Title>
       </div>
 
       <Card className='!mb-6'>

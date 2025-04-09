@@ -68,8 +68,13 @@ export type PaymentInfo = {
 
 export type Transaction = {
   id: string;
-  transactionStatus: string;
+  transactionStatus: any;
   _id: string;
+  bank_status: string;
+  date_time: string;
+  method: string;
+  sp_code: string;
+  sp_message: string;
 };
 
 export type TPaymentVerificationResponse = {
