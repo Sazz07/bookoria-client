@@ -47,21 +47,30 @@ const baseQueryWithRefreshToken: BaseQueryFn<
     toast.error((result.error?.data as { message: string }).message);
   }
 
+  // Check if the result contains an error status of 401 (Unauthorized)
   if (result.error?.status === 401) {
-    const res = await fetch('http://localhost:5000/api/v1/auth/refresh-token', {
-      method: 'POST',
-      credentials: 'include',
-    });
+    try {
+      const res = await fetch(
+        'http://localhost:5000/api/v1/auth/refresh-token',
+        {
+          method: 'POST',
+          credentials: 'include',
+        }
+      );
 
-    const data = await res.json();
+      const data = await res.json();
 
-    if (data?.data?.accessToken) {
-      const user = (api.getState() as RootState).auth.user;
+      if (data?.data?.accessToken) {
+        const user = (api.getState() as RootState).auth.user;
+        api.dispatch(setUser({ user, token: data?.data?.accessToken }));
 
-      api.dispatch(setUser({ user, token: data?.data?.accessToken }));
-
-      result = await baseQuery(args, api, extraOptions);
-    } else {
+        result = await baseQuery(args, api, extraOptions);
+      } else {
+        api.dispatch(logout());
+        window.location.href = '/login';
+      }
+    } catch (error) {
+      console.error('Token refresh failed:', error);
       api.dispatch(logout());
     }
   }

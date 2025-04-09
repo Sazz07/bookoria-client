@@ -38,9 +38,9 @@ const adminMenuItems = [
     label: <Link to='/dashboard/admin/manage-users'>Manage Users</Link>,
   },
   {
-    key: '/dashboard/admin/manage-products',
+    key: '/dashboard/admin/manage-books',
     icon: <BookOutlined />,
-    label: <Link to='/dashboard/admin/manage-products'>Manage Books</Link>,
+    label: <Link to='/dashboard/admin/manage-books'>Manage Books</Link>,
   },
   {
     key: '/dashboard/admin/manage-orders',

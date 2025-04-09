@@ -1,8 +1,10 @@
+import { BOOK_GENRE } from '../constants/global';
+
 export type TBook = {
   _id: string;
   title: string;
   author: string;
-  genre: string;
+  genre: TBookGenre;
   description: string;
   price: number;
   stock: number;
@@ -22,3 +24,5 @@ export type TBook = {
   rating?: number;
   pageCount?: number;
 };
+
+export type TBookGenre = keyof typeof BOOK_GENRE;

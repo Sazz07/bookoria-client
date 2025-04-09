@@ -62,6 +62,7 @@ const bookApi = baseApi.injectEndpoints({
         url: `/books/${id}`,
         method: 'DELETE',
       }),
+      invalidatesTags: ['Book'],
     }),
   }),
 });

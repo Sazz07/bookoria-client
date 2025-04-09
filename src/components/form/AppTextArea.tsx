@@ -10,6 +10,7 @@ type TTextAreaProps = {
   label?: string;
   placeholder?: string;
   rows?: number;
+  disabled?: boolean;
 };
 
 const AppTextArea = ({
@@ -18,6 +19,7 @@ const AppTextArea = ({
   label,
   placeholder,
   rows = 4,
+  disabled,
 }: TTextAreaProps) => {
   return (
     <Controller
@@ -30,6 +32,7 @@ const AppTextArea = ({
             size={size}
             placeholder={placeholder}
             rows={rows}
+            disabled={disabled}
           />
           {error && <small style={{ color: 'red' }}>{error.message}</small>}
         </Form.Item>

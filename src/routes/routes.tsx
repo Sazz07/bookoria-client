@@ -17,7 +17,7 @@ import ProfileSettings from '../pages/dashboard/user/ProfileSettings';
 // Admin Dashboard Routes
 import AdminDashboard from '../pages/dashboard/AdminDashboard';
 import ManageUsers from '../pages/dashboard/admin/ManageUsers';
-import ManageProducts from '../pages/dashboard/admin/ManageProducts';
+
 import ManageOrders from '../pages/dashboard/admin/ManageOrders';
 
 // Error Page
@@ -27,6 +27,7 @@ import AllBooks from '../pages/books/AllBooks';
 import BookDetails from '../pages/books/BookDetails';
 import MyOrders from '../pages/dashboard/MyOrders';
 import OrderDetails from '../pages/dashboard/OrderDetails';
+import ManageBooks from '../pages/dashboard/admin/ManageBooks';
 
 const router = createBrowserRouter([
   {
@@ -126,10 +127,10 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: 'admin/manage-products',
+        path: 'admin/manage-books',
         element: (
           <ProtectedRoute allowedRoles={['admin']}>
-            <ManageProducts />
+            <ManageBooks />
           </ProtectedRoute>
         ),
       },
