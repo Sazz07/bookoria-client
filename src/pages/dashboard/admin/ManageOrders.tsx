@@ -27,7 +27,7 @@ const breadcrumbItems = [
   },
   {
     title: 'Dashboard',
-    href: '/dashboard',
+    href: '/dashboard/admin',
     icon: <DashboardOutlined />,
   },
   {

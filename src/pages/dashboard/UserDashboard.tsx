@@ -142,7 +142,11 @@ const UserDashboard = () => {
               renderItem={(order) => (
                 <List.Item
                   actions={[
-                    <Link to={`/dashboard/my-orders/${order?._id}`} key='view' className='!mt-2 sm:!mt-0'>
+                    <Link
+                      to={`/dashboard/my-orders/${order?._id}`}
+                      key='view'
+                      className='!mt-2 sm:!mt-0'
+                    >
                       <Button type='link'>View Details</Button>
                     </Link>,
                   ]}

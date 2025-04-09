@@ -44,7 +44,7 @@ const breadcrumbItems = [
   },
   {
     title: 'Dashboard',
-    href: '/dashboard',
+    href: '/dashboard/admin',
     icon: <DashboardOutlined />,
   },
   {
@@ -143,7 +143,7 @@ const ManageUsers = () => {
       title: 'User',
       key: 'user',
       render: (item: TUserData) => (
-        <div className='flex gap-1 items-center'>
+        <div className='flex gap-2 items-center'>
           <Avatar
             src={item?.image}
             icon={!item?.image && <UserOutlined />}
