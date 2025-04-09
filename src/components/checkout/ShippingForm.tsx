@@ -37,7 +37,7 @@ const ShippingForm = ({ profile, onBack, onSubmit }: ShippingFormProps) => {
             name='name'
             label='Name'
             placeholder='Enter your name'
-            disable
+            disabled
           />
           <AppInput
             type='text'

@@ -31,6 +31,7 @@ const CartDrawer = () => {
   const navigate = useNavigate();
 
   const handleClose = () => {
+    navigate('/books');
     dispatch(toggleCart(false));
   };
 
@@ -99,7 +100,7 @@ const CartDrawer = () => {
           dataSource={cartItems}
           renderItem={(item) => (
             <List.Item
-              key={item.book._id}
+              key={item?.book._id}
               className='flex flex-col items-start'
             >
               <div className='flex mb-2 w-full'>
@@ -112,7 +113,7 @@ const CartDrawer = () => {
                 </div>
                 <div className='flex-1'>
                   <Link
-                    to={`/books/${item.book._id}`}
+                    to={`/books/${item?.book._id}`}
                     className='text-base font-medium hover:text-primary'
                     onClick={handleClose}
                   >

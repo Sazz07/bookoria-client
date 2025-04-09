@@ -135,59 +135,63 @@ const UserDashboard = () => {
         extra={<Link to='/dashboard/my-orders'>View All</Link>}
       >
         {ordersData?.data && ordersData.data.length > 0 ? (
-          <List
-            itemLayout='horizontal'
-            dataSource={ordersData.data}
-            renderItem={(order) => (
-              <List.Item
-                actions={[
-                  <Link to={`/dashboard/my-orders/${order?._id}`} key='view'>
-                    <Button type='link'>View Details</Button>
-                  </Link>,
-                ]}
-              >
-                <List.Item.Meta
-                  avatar={
-                    <Avatar
-                      icon={<ShoppingOutlined />}
-                      className='!bg-primary'
-                    />
-                  }
-                  title={
-                    <div className='flex gap-2 items-center'>
-                      <Text strong>Order #{order._id.slice(-8)}</Text>
-                      <Tag
-                        color={
-                          order.status === 'Delivered'
-                            ? 'success'
-                            : order.status === 'Pending'
-                            ? 'warning'
-                            : 'processing'
-                        }
-                      >
-                        {order.status}
-                      </Tag>
-                    </div>
-                  }
-                  description={
-                    <div>
-                      <Text type='secondary'>
-                        {formatDate(order.createdAt)}
-                      </Text>
-                      <div className='mt-1'>
-                        <Text strong>
-                          {order.orderItems.length}{' '}
-                          {order.orderItems.length > 1 ? 'items' : 'item'}
-                        </Text>
-                        <Text> • </Text>
-                        <Text strong>{formatCurrency(order.total)}</Text>
+          <div className='!overflow-x-auto'>
+            <List
+              itemLayout='horizontal'
+              dataSource={ordersData.data}
+              renderItem={(order) => (
+                <List.Item
+                  actions={[
+                    <Link to={`/dashboard/my-orders/${order?._id}`} key='view' className='!mt-2 sm:!mt-0'>
+                      <Button type='link'>View Details</Button>
+                    </Link>,
+                  ]}
+                  className='!flex !flex-col sm:!flex-row !w-full'
+                >
+                  <List.Item.Meta
+                    avatar={
+                      <Avatar
+                        icon={<ShoppingOutlined />}
+                        className='!bg-primary !hidden sm:!inline-flex'
+                      />
+                    }
+                    title={
+                      <div className='!flex !flex-col sm:!flex-row sm:!items-center !gap-2'>
+                        <Text strong>Order #{order._id.slice(-8)}</Text>
+                        <Tag
+                          color={
+                            order.status === 'Delivered'
+                              ? 'success'
+                              : order.status === 'Pending'
+                              ? 'warning'
+                              : 'processing'
+                          }
+                        >
+                          {order.status}
+                        </Tag>
                       </div>
-                    </div>
-                  }
-                />
-              </List.Item>
-            )}
-          />
+                    }
+                    description={
+                      <div className='!mt-2 sm:!mt-0'>
+                        <Text type='secondary' className='!block sm:!inline'>
+                          {formatDate(order.createdAt)}
+                        </Text>
+                        <div className='!mt-2 sm:!mt-1'>
+                          <Text strong>
+                            {order.orderItems.length}{' '}
+                            {order.orderItems.length > 1 ? 'items' : 'item'}
+                          </Text>
+                          <Text className='!mx-2'>•</Text>
+                          <Text strong>{formatCurrency(order.total)}</Text>
+                        </div>
+                      </div>
+                    }
+                    className='!mb-4 sm:!mb-0 !w-full'
+                  />
+                </List.Item>
+              )}
+            />
+          </div>
         ) : (
           <Empty
             description="You haven't placed any orders yet"

@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disabled @typescript-eslint/no-explicit-any */
 import { Form } from 'antd';
 import { ReactNode } from 'react';
 import {
