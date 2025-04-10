@@ -31,7 +31,6 @@ const CartDrawer = () => {
   const navigate = useNavigate();
 
   const handleClose = () => {
-    navigate('/books');
     dispatch(toggleCart(false));
   };
 

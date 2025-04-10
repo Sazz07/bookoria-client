@@ -9,33 +9,33 @@ import {
   Phone,
   Clock,
 } from 'lucide-react';
+import { member1, member2, member3, member4 } from '../assets/images';
 
 const About = () => {
-  // Mock team members data
   const teamMembers = [
     {
       name: 'Sarah Johnson',
       role: 'Founder & CEO',
       bio: 'Book enthusiast with 15+ years in publishing. Sarah founded BookShop with a vision to connect readers with their next favorite book.',
-      image: '/placeholder.svg?height=300&width=300',
+      image: member1,
     },
     {
       name: 'Michael Chen',
       role: 'Chief Curator',
       bio: 'Former literature professor with a passion for discovering hidden literary gems and bringing them to our readers.',
-      image: '/placeholder.svg?height=300&width=300',
+      image: member2,
     },
     {
       name: 'Priya Sharma',
       role: 'Head of Customer Experience',
       bio: 'With a background in UX design and a love for books, Priya ensures every customer has a seamless experience.',
-      image: '/placeholder.svg?height=300&width=300',
+      image: member3,
     },
     {
       name: 'James Wilson',
       role: 'Technology Director',
       bio: 'Tech innovator who believes in using technology to make literature more accessible to everyone around the world.',
-      image: '/placeholder.svg?height=300&width=300',
+      image: member4,
     },
   ];
 
@@ -137,8 +137,8 @@ const About = () => {
             <div className='relative'>
               <div className='overflow-hidden relative z-10 rounded-lg shadow-xl'>
                 <img
-                  src='/placeholder.svg?height=600&width=500'
-                  alt='Bookshop interior'
+                  src='https://images.unsplash.com/photo-1507842217343-583bb7270b66?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
+                  alt='Bookshop interior with stacked books'
                   className='object-cover w-full h-auto'
                 />
               </div>
@@ -225,9 +225,13 @@ const About = () => {
               >
                 <div className='relative h-64'>
                   <img
-                    src={member.image || '/placeholder.svg'}
+                    src={member.image}
                     alt={member.name}
                     className='object-cover w-full h-full'
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = '/placeholder.svg?height=300&width=300';
+                    }}
                   />
                 </div>
                 <div className='p-6'>

@@ -43,8 +43,6 @@ const UserDashboard = () => {
     { name: 'limit', value: orderLimit },
   ]);
 
-  console.log(ordersData);
-
   const breadcrumbItems = [
     {
       title: 'Home',

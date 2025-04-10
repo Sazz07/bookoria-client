@@ -1,11 +1,24 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Button, Dropdown, Popover, Row, Col, MenuProps, Badge } from 'antd';
+import {
+  Button,
+  Dropdown,
+  Popover,
+  Row,
+  Col,
+  MenuProps,
+  Badge,
+  Drawer,
+} from 'antd';
 import {
   ShoppingCartOutlined,
   CloseOutlined,
   MenuOutlined,
   UserOutlined,
+  HomeOutlined,
+  BookOutlined,
+  InfoCircleOutlined,
+  AppstoreOutlined,
 } from '@ant-design/icons';
 import { cn } from '../../utils/cn';
 import { bookGenre } from '../../constants/global';
@@ -41,6 +54,7 @@ export default function Navbar() {
     dispatch(logout());
     await logoutMutation(undefined).unwrap();
     navigate('/login');
+    setIsMenuOpen(false);
   };
 
   useEffect(() => {
@@ -51,26 +65,13 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  useEffect(() => {
-    if (isMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [isMenuOpen]);
-
   const categories = bookGenre.map((genre) => ({
     name: genre,
     href: `/books?category=${genre.toLowerCase().replace(/ /g, '-')}`,
   }));
 
   const items: MenuProps['items'] = [
-    { key: '/dashboard', label: <Link to=''>Dashboard</Link> },
-    { key: '/orders', label: <Link to=''>My Orders</Link> },
-    { key: '/settings', label: <Link to=''>Settings</Link> },
+    { key: '/dashboard', label: <Link to='/dashboard'>Dashboard</Link> },
     {
       key: '/logout',
       label: (
@@ -184,6 +185,21 @@ export default function Navbar() {
             </div>
 
             <div className='flex md:hidden'>
+              {user && (
+                <Badge
+                  count={cartItemsCount}
+                  size='small'
+                  offset={[0, 3]}
+                  className='mr-2'
+                >
+                  <Button
+                    type='text'
+                    icon={<ShoppingCartOutlined />}
+                    className='flex justify-center items-center rounded-full'
+                    onClick={showCart}
+                  />
+                </Badge>
+              )}
               <Button
                 type='text'
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -195,109 +211,106 @@ export default function Navbar() {
           </div>
         </div>
 
-        <div
-          className={`fixed inset-0 z-40 bg-white md:hidden transition-all duration-300 ease-in-out top-16 ${
-            isMenuOpen
-              ? 'opacity-100 translate-y-0'
-              : 'opacity-0 -translate-y-10 pointer-events-none'
-          }`}
+        {/* Mobile Navigation - Using Ant Design Drawer instead of custom implementation */}
+        <Drawer
+          placement='right'
+          closable={false}
+          onClose={() => setIsMenuOpen(false)}
+          open={isMenuOpen}
+          width='100%'
+          styles={{
+            body: { padding: 0 },
+            wrapper: { maxWidth: '100vw' },
+          }}
         >
-          <div className='container overflow-y-auto px-6 py-6 mx-auto h-full'>
-            <div className='flex flex-col h-full'>
-              <div className='flex-1 space-y-6'>
-                <div className='space-y-5'>
-                  {['Home', 'All Books', 'About'].map((item, index) => (
+          <div className='flex justify-between items-center p-4 border-b'>
+            <Logo />
+            <Button
+              type='text'
+              icon={<CloseOutlined />}
+              onClick={() => setIsMenuOpen(false)}
+              aria-label='Close Menu'
+            />
+          </div>
+
+          <div
+            className='overflow-y-auto p-6'
+            style={{ height: 'calc(100vh - 64px)' }}
+          >
+            <div className='space-y-6'>
+              <div className='space-y-4'>
+                <Link
+                  to='/'
+                  className='flex items-center text-lg font-medium text-gray-800 hover:text-primary'
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <HomeOutlined className='mr-3' />
+                  Home
+                </Link>
+                <Link
+                  to='/books'
+                  className='flex items-center text-lg font-medium text-gray-800 hover:text-primary'
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <BookOutlined className='mr-3' />
+                  All Books
+                </Link>
+                <Link
+                  to='/about'
+                  className='flex items-center text-lg font-medium text-gray-800 hover:text-primary'
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <InfoCircleOutlined className='mr-3' />
+                  About
+                </Link>
+                <button
+                  onClick={() => {
+                    showCart();
+                    setIsMenuOpen(false);
+                  }}
+                  className='flex items-center text-lg font-medium text-gray-800 hover:text-primary'
+                >
+                  <ShoppingCartOutlined className='mr-3' />
+                  Cart {cartItemsCount > 0 && `(${cartItemsCount})`}
+                </button>
+              </div>
+
+              <div className='py-4 border-t border-gray-100'>
+                <h3 className='flex items-center mb-4 text-lg font-semibold text-gray-800'>
+                  <AppstoreOutlined className='mr-2' />
+                  Browse Categories
+                </h3>
+                <div className='grid grid-cols-1 gap-y-3'>
+                  {categories.map((category) => (
                     <Link
-                      key={item}
-                      to={
-                        item === 'Home'
-                          ? '/'
-                          : item === 'All Books'
-                          ? '/books'
-                          : '/about'
-                      }
-                      className={`block text-xl font-medium text-gray-800 hover:text-primary transition-all duration-300 ease-in-out ${
-                        isMenuOpen
-                          ? 'opacity-100 translate-x-0'
-                          : 'opacity-0 -translate-x-4'
-                      }`}
-                      style={{ transitionDelay: `${100 + index * 50}ms` }}
+                      key={category.name}
+                      to={category.href}
+                      className='pl-2 text-base text-gray-600 border-l-2 border-gray-200 transition-colors hover:text-primary'
                       onClick={() => setIsMenuOpen(false)}
                     >
-                      {item}
+                      {category.name}
                     </Link>
                   ))}
-
-                  <button
-                    className={`flex items-center text-xl font-medium text-gray-800 hover:text-primary transition-all duration-300 ease-in-out ${
-                      isMenuOpen
-                        ? 'opacity-100 translate-x-0'
-                        : 'opacity-0 -translate-x-4'
-                    }`}
-                    style={{ transitionDelay: '250ms' }}
-                  >
-                    <ShoppingCartOutlined className='mr-3' />
-                    Cart {cartItemsCount > 0 && `(${cartItemsCount})`}
-                  </button>
-                </div>
-
-                <div
-                  className={`py-5 mt-2 border-t border-gray-100 transition-all duration-300 ease-in-out ${
-                    isMenuOpen
-                      ? 'opacity-100 translate-y-0'
-                      : 'opacity-0 translate-y-4'
-                  }`}
-                  style={{ transitionDelay: '300ms' }}
-                >
-                  <h3 className='mb-4 text-lg font-semibold text-gray-800'>
-                    Browse Categories
-                  </h3>
-                  <div className='grid grid-cols-2 gap-y-3 gap-x-4'>
-                    {categories.map((category, index) => (
-                      <Link
-                        key={category.name}
-                        to={category.href}
-                        className='text-base text-gray-600 transition-colors hover:text-primary'
-                        style={{
-                          transitionDelay: `${350 + index * 20}ms`,
-                          animation: isMenuOpen
-                            ? `fadeIn 0.3s ease-in-out ${
-                                350 + index * 20
-                              }ms both`
-                            : 'none',
-                        }}
-                        onClick={() => setIsMenuOpen(false)}
-                      >
-                        {category.name}
-                      </Link>
-                    ))}
-                  </div>
                 </div>
               </div>
 
-              <div
-                className={`py-5 mt-auto border-t border-gray-100 transition-all duration-300 ease-in-out ${
-                  isMenuOpen
-                    ? 'opacity-100 translate-y-0'
-                    : 'opacity-0 translate-y-4'
-                }`}
-                style={{ transitionDelay: '400ms' }}
-              >
+              <div className='py-4 mt-auto border-t border-gray-100'>
                 {profile && user ? (
                   <div className='space-y-4'>
-                    <div className='flex items-center'>
+                    <div className='flex items-center p-3 bg-gray-50 rounded-lg'>
                       <div className='flex justify-center items-center mr-4 w-12 h-12 text-white rounded-full bg-primary'>
                         <UserOutlined style={{ fontSize: '18px' }} />
                       </div>
                       <div>
                         <p className='text-base font-medium text-gray-800'>
-                          {profile?.fullName}
+                          {profile?.fullName ||
+                            `${profile?.name?.firstName} ${profile?.name?.lastName}`}
                         </p>
                         <p className='text-sm text-gray-500'>{user?.email}</p>
                       </div>
                     </div>
 
-                    <div className='grid grid-cols-2 gap-3 mt-4'>
+                    <div className='grid grid-cols-1 gap-3'>
                       <Link
                         to='/dashboard'
                         onClick={() => setIsMenuOpen(false)}
@@ -313,13 +326,18 @@ export default function Navbar() {
                           Dashboard
                         </Button>
                       </Link>
-                      <Button type='default' block style={{ height: '40px' }}>
+                      <Button
+                        type='default'
+                        block
+                        style={{ height: '40px' }}
+                        onClick={handleLogout}
+                      >
                         Logout
                       </Button>
                     </div>
                   </div>
                 ) : (
-                  <div className='grid grid-cols-2 gap-3'>
+                  <div className='grid grid-cols-1 gap-3'>
                     <Link to='/login' onClick={() => setIsMenuOpen(false)}>
                       <Button
                         type='primary'
@@ -339,7 +357,7 @@ export default function Navbar() {
               </div>
             </div>
           </div>
-        </div>
+        </Drawer>
       </header>
 
       <CartDrawer />

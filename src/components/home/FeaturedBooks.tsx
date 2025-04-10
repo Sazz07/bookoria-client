@@ -13,7 +13,7 @@ const FeaturedBooks = () => {
   ]);
 
   return (
-    <section>
+    <section className='py-8 md:py-16'>
       <div className='flex flex-col justify-between items-start mb-8 md:flex-row md:items-center'>
         <div className='mb-4 md:mb-0'>
           <Title

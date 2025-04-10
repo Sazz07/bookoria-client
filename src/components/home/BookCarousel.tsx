@@ -8,6 +8,7 @@ import {
   book_carousel2,
   book_carousel3,
 } from '../../assets/images';
+import { cn } from '../../utils/cn';
 
 const { Title, Text } = Typography;
 
@@ -90,7 +91,7 @@ export default function BookCarousel() {
 
   return (
     <div
-      className='overflow-hidden relative my-4 rounded-xl border border-gray-100 shadow-xl'
+      className='overflow-hidden relative mt-4 rounded-xl border border-gray-100 shadow-xl'
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -98,13 +99,14 @@ export default function BookCarousel() {
         {slides.map((slide, index) => (
           <div
             key={slide.id}
-            className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ${
+            className={cn(
+              'absolute inset-0 w-full h-full transition-opacity duration-1000',
               index === currentSlide
                 ? 'opacity-100'
                 : 'opacity-0 pointer-events-none'
-            }`}
+            )}
           >
-            <div className='absolute inset-0 z-10 bg-gradient-to-r from-accent/90 to-accent/60' />
+            <div className='absolute inset-0 z-10 bg-gradient-to-r from-accent/80 to-accent/60' />
             <img
               src={slide.image}
               alt={slide.title}
@@ -117,24 +119,24 @@ export default function BookCarousel() {
             <div className='absolute inset-x-0 bottom-0 z-10 h-24 bg-gradient-to-t to-transparent from-black/30' />
 
             <div
-              className={`flex relative z-20 flex-col justify-center px-4 h-full sm:px-6 md:px-12 lg:px-20 
-              ${
+              className={cn(
+                'flex relative z-20 flex-col justify-center px-4 h-full sm:px-6 md:px-12 lg:px-20',
                 index === 0
                   ? 'items-start'
                   : index === 1
                   ? 'items-center'
                   : 'items-end'
-              }`}
+              )}
             >
               <div
-                className={`max-w-xl animate-fade-in-up 
-                ${
+                className={cn(
+                  'max-w-xl animate-fade-in-up',
                   index === 1
                     ? 'text-center'
                     : index === 2
                     ? 'text-right'
                     : 'text-left'
-                }`}
+                )}
               >
                 <span className='inline-block mb-2 sm:mb-4 px-3 py-1 sm:px-4 sm:py-1.5 text-xs sm:text-sm font-medium text-white bg-white/20 backdrop-blur-sm rounded-full shadow-sm'>
                   {slide.subtitle}
@@ -160,14 +162,14 @@ export default function BookCarousel() {
                   {slide.description}
                 </Text>
                 <div
-                  className={`flex flex-col gap-2 sm:flex-row sm:gap-4 
-                  ${
+                  className={cn(
+                    'flex flex-col gap-2 sm:flex-row sm:gap-4',
                     index === 1
                       ? 'justify-center'
                       : index === 2
                       ? 'justify-end'
                       : 'justify-start'
-                  }`}
+                  )}
                 >
                   <Link to={slide.buttonLink}>
                     <Button
@@ -215,11 +217,12 @@ export default function BookCarousel() {
             <button
               key={index}
               onClick={() => goToSlide(index)}
-              className={`transition-all duration-300 rounded-full ${
+              className={cn(
+                'transition-all duration-300 rounded-full',
                 index === currentSlide
                   ? 'w-8 sm:w-10 h-2 sm:h-2.5 bg-white shadow-md'
                   : 'w-2 sm:w-2.5 h-2 sm:h-2.5 bg-white/50 hover:bg-white/70'
-              }`}
+              )}
               aria-label={`Go to slide ${index + 1}`}
             ></button>
           ))}

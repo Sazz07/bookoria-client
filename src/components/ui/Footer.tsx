@@ -14,7 +14,7 @@ import Logo from '../shared/Logo';
 const Footer = () => {
   return (
     <footer className='text-white bg-accent'>
-      <div className='container py-12 mx-auto'>
+      <div className='container px-4 py-12 mx-auto md:px-0'>
         <div className='grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4'>
           <div className='space-y-4'>
             <Link to='/' className='inline-block'>

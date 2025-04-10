@@ -11,36 +11,20 @@ import TestimonialSection from '../../components/home/TestimonialSection';
 const Home = () => {
   return (
     <div className='flex flex-col gap-12 min-h-screen md:gap-20'>
-      {/* Hero Carousel */}
-      <BookCarousel />
-
-      {/* Featured Books Section */}
-      <div className='container px-4 mx-auto md:px-6'>
+      <div className='container px-4 mx-auto md:px-0'>
+        <BookCarousel />
         <FeaturedBooks />
-      </div>
-
-      {/* Category Showcase */}
-      <div className='container px-4 mx-auto md:px-6'>
         <CategoryShowcase />
-      </div>
-
-      {/* Promo Banner */}
-      <PromoBanner />
-
-      {/* Recently Added Books */}
-      <div className='container px-4 mx-auto md:px-6'>
+        <PromoBanner />
         <RecentlyAddedBooks />
       </div>
 
-      {/* About Section */}
       <AboutSection />
 
-      {/* Testimonials */}
-      <div className='container px-4 mx-auto md:px-6'>
+      <div className='container px-4 mx-auto md:px-0'>
         <TestimonialSection />
       </div>
 
-      {/* Newsletter Section */}
       <NewsletterSection />
     </div>
   );

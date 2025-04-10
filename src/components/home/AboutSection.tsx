@@ -39,7 +39,7 @@ const features = [
 const AboutSection = () => {
   return (
     <section className='py-16 bg-secondary-light'>
-      <div className='container px-4 mx-auto md:px-6'>
+      <div className='container px-4 mx-auto md:px-0'>
         <Row gutter={[48, 48]} align='middle'>
           <Col xs={24} md={12}>
             <div className='max-w-lg'>

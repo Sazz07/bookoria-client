@@ -47,8 +47,8 @@ const NewsletterSection = () => {
   ];
 
   return (
-    <section className='py-20 bg-accent'>
-      <div className='container mx-auto'>
+    <section className='py-20 bg-accent-dark'>
+      <div className='container px-4 mx-auto md:px-0'>
         <div className='grid gap-8 items-center md:grid-cols-5'>
           <div className='text-white md:col-span-2'>
             <div className='inline-flex justify-center items-center mb-6 w-16 h-16 rounded-full bg-white/20'>
