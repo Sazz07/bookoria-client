@@ -3,6 +3,11 @@ import { Button, Typography } from 'antd';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import { TBookCarouselSlide } from '../../types/bookCarousel.type';
+import {
+  book_carousel1,
+  book_carousel2,
+  book_carousel3,
+} from '../../assets/images';
 
 const { Title, Text } = Typography;
 
@@ -13,7 +18,7 @@ export default function BookCarousel() {
   const slides: TBookCarouselSlide[] = [
     {
       id: 1,
-      image: '/images/banner-1.jpg',
+      image: book_carousel1,
       title: 'Discover Your Next Literary Adventure',
       subtitle: 'Spring Sale: 30% Off Bestsellers',
       description:
@@ -25,7 +30,7 @@ export default function BookCarousel() {
     },
     {
       id: 2,
-      image: '/images/banner-2.jpg',
+      image: book_carousel2,
       title: 'Join Our Book Club',
       subtitle: 'Connect with Fellow Readers',
       description:
@@ -37,7 +42,7 @@ export default function BookCarousel() {
     },
     {
       id: 3,
-      image: '/images/banner-3.jpg',
+      image: book_carousel3,
       title: 'New Arrivals Every Week',
       subtitle: 'Stay Ahead of the Curve',
       description:
@@ -111,8 +116,26 @@ export default function BookCarousel() {
             />
             <div className='absolute inset-x-0 bottom-0 z-10 h-24 bg-gradient-to-t to-transparent from-black/30' />
 
-            <div className='flex relative z-20 flex-col justify-center px-4 h-full sm:px-6 md:px-12 lg:px-20'>
-              <div className='max-w-xl animate-fade-in-up'>
+            <div
+              className={`flex relative z-20 flex-col justify-center px-4 h-full sm:px-6 md:px-12 lg:px-20 
+              ${
+                index === 0
+                  ? 'items-start'
+                  : index === 1
+                  ? 'items-center'
+                  : 'items-end'
+              }`}
+            >
+              <div
+                className={`max-w-xl animate-fade-in-up 
+                ${
+                  index === 1
+                    ? 'text-center'
+                    : index === 2
+                    ? 'text-right'
+                    : 'text-left'
+                }`}
+              >
                 <span className='inline-block mb-2 sm:mb-4 px-3 py-1 sm:px-4 sm:py-1.5 text-xs sm:text-sm font-medium text-white bg-white/20 backdrop-blur-sm rounded-full shadow-sm'>
                   {slide.subtitle}
                 </span>
@@ -136,7 +159,16 @@ export default function BookCarousel() {
                 <Text className='!block !mb-4 sm:!mb-8 !max-w-md !text-sm sm:!text-base md:!text-lg lg:!text-xl !text-white/90 !drop-shadow-sm'>
                   {slide.description}
                 </Text>
-                <div className='flex flex-col gap-2 sm:flex-row sm:gap-4'>
+                <div
+                  className={`flex flex-col gap-2 sm:flex-row sm:gap-4 
+                  ${
+                    index === 1
+                      ? 'justify-center'
+                      : index === 2
+                      ? 'justify-end'
+                      : 'justify-start'
+                  }`}
+                >
                   <Link to={slide.buttonLink}>
                     <Button
                       type='primary'

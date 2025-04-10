@@ -9,16 +9,16 @@ import {
   MapPin,
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import Logo from '../shared/Logo';
 
 const Footer = () => {
   return (
-    <footer className='bg-[#2D4B73] text-white'>
-      <div className='container px-4 py-12 mx-auto'>
+    <footer className='text-white bg-accent'>
+      <div className='container py-12 mx-auto'>
         <div className='grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4'>
-          {/* Company Info */}
           <div className='space-y-4'>
             <Link to='/' className='inline-block'>
-              <span className='text-2xl font-bold'>BookShop</span>
+              <Logo />
             </Link>
             <p className='text-gray-300'>
               Discover your next favorite book with our curated collection of

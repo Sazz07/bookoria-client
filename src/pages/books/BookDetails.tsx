@@ -20,6 +20,7 @@ import EditReviewModal from '../../components/reviews/EditReviewModal';
 import Loading from '../../components/shared/Loading';
 import PageBreadcrumb from '../../components/shared/PageBreadcrumb';
 import { formatDate } from '../../utils/dateUtils';
+import { no_cover_image } from '../../assets/images';
 
 const BookDetails = () => {
   const { bookId } = useParams();
@@ -146,8 +147,6 @@ const BookDetails = () => {
     }
   };
 
-  // Remove the formatDate function from here
-
   if (bookLoading) {
     return <Loading fullScreen />;
   }
@@ -161,7 +160,7 @@ const BookDetails = () => {
   }
 
   return (
-    <div className='container mx-auto px-4 py-8'>
+    <div className='container px-4 py-8 mx-auto'>
       <PageBreadcrumb
         items={[
           {
@@ -181,31 +180,42 @@ const BookDetails = () => {
       />
 
       {/* Book Details Section */}
-      <div className='bg-white rounded-lg shadow-md overflow-hidden mt-4'>
+      <div className='overflow-hidden mt-4 bg-white rounded-lg shadow-md'>
         <Row gutter={[24, 24]} className='p-6'>
           {/* Book Cover Image */}
-          <Col xs={24} sm={24} md={10} lg={8} className='flex justify-center'>
-            <div className='relative w-full max-w-[300px]'>
+          <Col
+            xs={24}
+            sm={24}
+            md={10}
+            lg={8}
+            className='flex justify-center items-center h-full'
+          >
+            <div className='flex relative justify-center w-full h-full'>
               <Image
-                src={
-                  book.coverImage ||
-                  'https://placehold.co/300x450/e2e8f0/1e293b?text=No+Image'
-                }
+                src={book.coverImage || no_cover_image}
                 alt={book.title}
-                className='rounded-md shadow-lg '
-                style={{ objectFit: 'cover' }}
-                fallback='https://placehold.co/300x450/e2e8f0/1e293b?text=No+Image'
+                className='!rounded-md !shadow-lg !w-full'
+                style={{
+                  objectFit: 'cover',
+                  height: '100%',
+                  minHeight: '400px',
+                  maxHeight: '600px',
+                  width: '100%',
+                }}
+                fallback={no_cover_image}
                 preview={{
                   mask: 'Preview',
                 }}
+                rootClassName='!w-full'
+                wrapperClassName='!w-full'
               />
               {book.discount > 0 && (
-                <div className='absolute top-0 right-0 bg-red-500 text-white px-2 py-1 rounded-bl-lg font-bold z-10'>
+                <div className='absolute top-0 right-0 z-10 px-2 py-1 font-bold text-white bg-red-500 rounded-bl-lg'>
                   {book.discount}% OFF
                 </div>
               )}
               {book.featured && (
-                <div className='absolute top-0 left-0 bg-amber-500 text-white px-2 py-1 rounded-br-lg font-bold z-10'>
+                <div className='absolute top-0 left-0 z-10 px-2 py-1 font-bold text-white bg-amber-500 rounded-br-lg'>
                   Featured
                 </div>
               )}
@@ -225,7 +235,7 @@ const BookDetails = () => {
           <h2 className='text-2xl font-bold text-primary'>Customer Reviews</h2>
         </div>
 
-        <div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>
+        <div className='grid grid-cols-1 gap-8 lg:grid-cols-3'>
           {/* Review Summary */}
           <div className='lg:col-span-1'>
             <ReviewSummary
@@ -250,7 +260,7 @@ const BookDetails = () => {
               setReviewPage={setReviewPage}
               currentUserId={currentUser?.userId}
               onEditReview={handleEditReview}
-              formatDate={formatDate} // Pass the imported utility function
+              formatDate={formatDate}
             />
           </div>
         </div>

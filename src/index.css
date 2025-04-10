@@ -47,3 +47,83 @@
   height: 100% !important;
   margin: 0;
 }
+
+.testimonial-carousel .slick-dots li button {
+  background: rgba(140, 94, 88, 0.3);
+  border-radius: 50%;
+  width: 8px;
+  height: 8px;
+}
+
+.testimonial-carousel .slick-dots li.slick-active button {
+  background: rgba(140, 94, 88, 1);
+  width: 10px;
+  height: 10px;
+}
+
+.testimonial-carousel .slick-dots {
+  bottom: -5px;
+}
+
+/* Animation for subtle zoom */
+@keyframes subtle-zoom {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-subtle-zoom {
+  animation: subtle-zoom 20s infinite ease-in-out;
+}
+
+@keyframes fade-in-up {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.8s ease-out forwards;
+}
+
+@keyframes logo-entrance {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulse-subtle {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-logo-entrance {
+  animation: logo-entrance 1.5s ease-out forwards;
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 2s infinite ease-in-out;
+}

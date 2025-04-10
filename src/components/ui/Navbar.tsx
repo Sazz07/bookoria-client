@@ -21,6 +21,7 @@ import {
   toggleCart,
 } from '../../redux/features/cart/cartSlice';
 import { useLoginMutation } from '../../redux/features/auth/auth.api';
+import Logo from '../shared/Logo';
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -94,12 +95,9 @@ export default function Navbar() {
       >
         <div className='container px-4 mx-auto'>
           <div className='flex justify-between items-center h-16'>
-            {/* Logo */}
             <div className='flex items-center'>
               <Link to='/' className='flex items-center'>
-                <span className='text-2xl font-bold text-primary'>
-                  BookShop
-                </span>
+                <Logo />
               </Link>
             </div>
 
@@ -344,7 +342,6 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* Cart Drawer */}
       <CartDrawer />
     </>
   );
