@@ -1,4 +1,3 @@
-import logo from './logo.png';
 import book_carousel1 from './book-carousel/carousel_1.avif';
 import book_carousel2 from './book-carousel/carousel_2.avif';
 import book_carousel3 from './book-carousel/carousel_3.avif';
@@ -23,7 +22,6 @@ import selfHelpCover from './genresCover/selfHelpCover.avif';
 import biographyCover from './genresCover/biographyCover.avif';
 
 export {
-  logo,
   book_carousel1,
   book_carousel2,
   book_carousel3,
