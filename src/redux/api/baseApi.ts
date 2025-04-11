@@ -12,7 +12,7 @@ import { logout, setUser } from '../features/auth/authSlice';
 import { config } from '../../config/env.config';
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: config.api.baseUrl,
+  baseUrl: config?.api?.baseUrl,
   credentials: 'include',
   prepareHeaders: (headers: Headers, { getState }) => {
     const token = (getState() as RootState).auth.token;
@@ -51,7 +51,7 @@ const baseQueryWithRefreshToken: BaseQueryFn<
   // Check if the result contains an error status of 401 (Unauthorized)
   if (result.error?.status === 401) {
     try {
-      const res = await fetch(`${config.api.baseUrl}/auth/refresh-token`, {
+      const res = await fetch(`${config?.api?.baseUrl}/auth/refresh-token`, {
         method: 'POST',
         credentials: 'include',
       });
