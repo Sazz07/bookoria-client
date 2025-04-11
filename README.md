@@ -2,7 +2,7 @@
 
 A modern, responsive e-commerce platform for book lovers built with React, TypeScript, Redux Toolkit, and Tailwind CSS.
 
-![Bookoria]
+![LIVE LINK](<(https://bookoria.vercel.app)>)
 
 ## 📚 Overview
 
