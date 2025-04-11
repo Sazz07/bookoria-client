@@ -53,8 +53,8 @@ Password: Admin123!
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/book-shop.git
-cd book-shop/book-shop-frontend
+git clone https://github.com/Sazz07/bookoria-client.git
+cd bookoria-client
 ```
 
 ### 2️⃣ Install Dependencies
@@ -69,7 +69,7 @@ yarn install
 
 ### 3️⃣ Set Up Environment Variables
 
-Update the .env file with you can check the .env.example file.
+Update the .env.local file with you can check the .env.example file.
 
 ### 4️⃣ Start Development Server
 
@@ -94,20 +94,20 @@ The application communicates with a RESTful API using RTK Query. Key features:
 
 ### User Roles
 
-- Customer : Can browse books, make purchases, and write reviews
-- Admin : Has access to the admin dashboard for managing books, users, and orders
+- Customer: Can browse books, make purchases, and write reviews
+- Admin: Has access to the admin dashboard for managing books, users, and orders
 
 ## 📝 Key Features Details
 
 ### Book Management
 
 - Browse books with search, filter, and pagination
-- View detailed book information including reviews
+- View detailed book information, including reviews
 - Admin can add, edit, and delete books
 
 ### Shopping Cart
 
-- Add/remove books from cart
+- Add/remove books from the cart
 - Update quantities
 - Persistent cart between sessions
 - Price calculations and summaries
@@ -124,50 +124,3 @@ The application communicates with a RESTful API using RTK Query. Key features:
 - Edit user details
 - Block/unblock users
 - Delete users
-
-## 🧪 Testing
-
-To run tests:
-
-## 🚨 Troubleshooting
-
-### Common Issues
-
-1. API Connection Issues
-
-   - Ensure the backend server is running
-   - Check that your .env file has the correct API URL
-
-2. Authentication Problems
-
-   - Clear browser storage and try logging in again
-   - Check browser console for specific error messages
-
-3. Build Failures
-
-   - Make sure all dependencies are installed
-   - Check for TypeScript errors with npm run tsc
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create your feature branch ( git checkout -b feature/amazing-feature )
-3. Commit your changes ( git commit -m 'Add some amazing feature' )
-4. Push to the branch ( git push origin feature/amazing-feature )
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 👥 Authors
-
-- Your Name - GitHub Profile
-
-## 🙏 Acknowledgments
-
-- React
-- Redux Toolkit
-- Tailwind CSS
-- Ant Design
-- Vite
