@@ -21,6 +21,8 @@ import Loading from '../../components/shared/Loading';
 import PageBreadcrumb from '../../components/shared/PageBreadcrumb';
 import { formatDate } from '../../utils/dateUtils';
 import { no_cover_image } from '../../assets/images';
+import { cn } from '../../utils/cn';
+import { ROLES } from '../../constants/global';
 
 const BookDetails = () => {
   const { bookId } = useParams();
@@ -257,28 +259,35 @@ const BookDetails = () => {
 
         <div className='grid grid-cols-1 gap-8 lg:grid-cols-3'>
           {/* Review Summary */}
-          <div className='lg:col-span-1'>
-            <ReviewSummary
-              rating={book.rating || 0}
-              totalReviews={reviewsData?.meta?.total || 0}
-              currentUser={currentUser}
-              hasUserReviewed={hasUserReviewed()}
-              reviewRating={reviewRating}
-              setReviewRating={setReviewRating}
-              showRatingError={showRatingError}
-              isSubmittingReview={isSubmittingReview}
-              onSubmit={handleReviewSubmit}
-            />
-          </div>
+          {currentUser?.role === 'user' && (
+            <div className='lg:col-span-1'>
+              <ReviewSummary
+                rating={book.rating || 0}
+                totalReviews={reviewsData?.meta?.total || 0}
+                currentUser={currentUser}
+                hasUserReviewed={hasUserReviewed()}
+                reviewRating={reviewRating}
+                setReviewRating={setReviewRating}
+                showRatingError={showRatingError}
+                isSubmittingReview={isSubmittingReview}
+                onSubmit={handleReviewSubmit}
+              />
+            </div>
+          )}
 
           {/* Reviews List */}
-          <div className='lg:col-span-2'>
+          <div
+            className={cn(
+              'lg:col-span-2',
+              currentUser?.role === ROLES.ADMIN && 'lg:col-span-3'
+            )}
+          >
             <ReviewsList
               reviewsLoading={reviewsLoading}
               reviewsData={reviewsData}
               reviewPage={reviewPage}
               setReviewPage={setReviewPage}
-              currentUserId={currentUser?.userId}
+              currentUser={currentUser}
               onEditReview={handleEditReview}
               formatDate={formatDate}
             />
