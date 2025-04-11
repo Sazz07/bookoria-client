@@ -142,7 +142,7 @@ const BookCard = ({ book }: BookCardProps) => {
           <Button
             type='primary'
             icon={<ShoppingCartOutlined />}
-            disabled={book.stock === 0}
+            disabled={!user || book.stock === 0}
             onClick={handleAddToCart}
             className='!w-full !font-medium !flex !items-center !justify-center'
             size='middle'
