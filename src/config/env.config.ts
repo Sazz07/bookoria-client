@@ -1,7 +1,6 @@
 export const config = {
   api: {
-    baseUrl:
-      import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api/v1',
+    baseUrl: import.meta.env.VITE_API_BASE_URL,
   },
   cloudinary: {
     cloudName: import.meta.env.VITE_CLOUDINARY_CLOUD_NAME || 'duxjoty1l',
