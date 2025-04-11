@@ -9,9 +9,10 @@ import {
 import { RootState } from '../store';
 import { toast } from 'sonner';
 import { logout, setUser } from '../features/auth/authSlice';
+import { config } from '../../config/env.config';
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'http://localhost:5000/api/v1',
+  baseUrl: config.api.baseUrl,
   credentials: 'include',
   prepareHeaders: (headers: Headers, { getState }) => {
     const token = (getState() as RootState).auth.token;
@@ -50,13 +51,10 @@ const baseQueryWithRefreshToken: BaseQueryFn<
   // Check if the result contains an error status of 401 (Unauthorized)
   if (result.error?.status === 401) {
     try {
-      const res = await fetch(
-        'http://localhost:5000/api/v1/auth/refresh-token',
-        {
-          method: 'POST',
-          credentials: 'include',
-        }
-      );
+      const res = await fetch(`${config.api.baseUrl}/auth/refresh-token`, {
+        method: 'POST',
+        credentials: 'include',
+      });
 
       const data = await res.json();
 

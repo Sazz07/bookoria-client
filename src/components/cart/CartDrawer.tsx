@@ -20,6 +20,7 @@ import {
 } from '../../redux/features/cart/cartSlice';
 import { Link, useNavigate } from 'react-router-dom';
 import { formatCurrency } from '../../utils/formatCurrency';
+import { selectCurrentUser } from '../../redux/features/auth/authSlice';
 
 const { Title, Text } = Typography;
 
@@ -29,6 +30,9 @@ const CartDrawer = () => {
   const cartTotal = useAppSelector(selectCartTotal);
   const isOpen = useAppSelector(selectIsCartOpen);
   const navigate = useNavigate();
+  const user = useAppSelector(selectCurrentUser);
+
+  const userId = user?.userId || null;
 
   const handleClose = () => {
     dispatch(toggleCart(false));
@@ -36,15 +40,15 @@ const CartDrawer = () => {
 
   const handleQuantityChange = (bookId: string, quantity: number) => {
     if (quantity < 1) return;
-    dispatch(updateQuantity({ bookId, quantity }));
+    dispatch(updateQuantity({ bookId, quantity, userId }));
   };
 
   const handleRemoveItem = (bookId: string) => {
-    dispatch(removeFromCart(bookId));
+    dispatch(removeFromCart({ bookId, userId }));
   };
 
   const handleClearCart = () => {
-    dispatch(clearCart());
+    dispatch(clearCart(userId));
   };
 
   return (

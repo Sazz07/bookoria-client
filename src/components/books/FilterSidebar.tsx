@@ -1,6 +1,10 @@
 import React from 'react';
 import { Input, Slider, Checkbox, Button, Divider } from 'antd';
-import { FilterOutlined, SearchOutlined } from '@ant-design/icons';
+import {
+  CloseOutlined,
+  FilterOutlined,
+  SearchOutlined,
+} from '@ant-design/icons';
 
 type FilterSidebarProps = {
   searchTerm: string;
@@ -39,18 +43,20 @@ const FilterSidebar = ({
     <>
       <div className='flex justify-between items-center mb-4'>
         <h3 className='text-lg font-semibold'>
-          <FilterOutlined className='mr-2' /> Filters
+          <FilterOutlined className='!mr-2' /> Filters
         </h3>
         <Button
-          type='text'
-          className='text-accent hover:text-accent-dark'
+          type='default'
+          size='small'
+          className='!text-red-400 hover:!text-red-500'
           onClick={onReset}
+          icon={<CloseOutlined />}
         >
           Reset
         </Button>
       </div>
 
-      <Divider className='my-4' />
+      <Divider className='!my-4' />
 
       <div className='mb-6'>
         <h4 className='mb-2 font-medium'>Search</h4>

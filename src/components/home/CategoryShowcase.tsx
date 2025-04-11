@@ -12,6 +12,7 @@ import {
   scienceFictionCover,
   selfHelpCover,
 } from '../../assets/images';
+import Loading from '../shared/Loading';
 
 const { Title, Text } = Typography;
 
@@ -86,6 +87,8 @@ const CategoryShowcase = () => {
       setIsLoading(false);
     }
   }, [booksData, isBooksLoading]);
+
+  if (isBooksLoading) return <Loading />;
 
   return (
     <section className='py-8 md:py-16'>

@@ -1,24 +1,22 @@
 import { Cloudinary } from '@cloudinary/url-gen';
+import { config } from '../config/env.config';
 
 export const cld = new Cloudinary({
   cloud: {
-    cloudName: 'duxjoty1l',
+    cloudName: config.cloudinary.cloudName,
   },
 });
 
 export const uploadToCloudinary = async (file: File): Promise<string> => {
   const formData = new FormData();
   formData.append('file', file);
-  formData.append('upload_preset', 'bookoria');
+  formData.append('upload_preset', config.cloudinary.uploadPreset);
 
   try {
-    const response = await fetch(
-      `https://api.cloudinary.com/v1_1/duxjoty1l/image/upload`,
-      {
-        method: 'POST',
-        body: formData,
-      }
-    );
+    const response = await fetch(config.cloudinary.uploadUrl, {
+      method: 'POST',
+      body: formData,
+    });
 
     const data = await response.json();
 

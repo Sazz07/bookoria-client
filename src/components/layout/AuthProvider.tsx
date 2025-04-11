@@ -11,6 +11,16 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const user = useAppSelector(selectCurrentUser);
   const dispatch = useAppDispatch();
   const [isInitializing, setIsInitializing] = useState(true);
+  const [isAuthChanging, setIsAuthChanging] = useState(false);
+
+  useEffect(() => {
+    setIsAuthChanging(true);
+    const timer = setTimeout(() => {
+      setIsAuthChanging(false);
+    }, 800);
+
+    return () => clearTimeout(timer);
+  }, [user?.userId]);
 
   const { data, isLoading, isError } = useGetMyProfileQuery(undefined, {
     skip: !user,
@@ -21,11 +31,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     if (!user) {
       dispatch(setProfile(null));
       setIsInitializing(false);
-    }
-  }, [user, dispatch]);
-
-  useEffect(() => {
-    if (data?.data && user) {
+    } else if (data?.data) {
       dispatch(
         setProfile({
           name: data.data.name,
@@ -34,16 +40,16 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         })
       );
       setIsInitializing(false);
-    }
-  }, [data, dispatch, user]);
-
-  useEffect(() => {
-    if (isError) {
+    } else if (isError) {
       setIsInitializing(false);
     }
-  }, [isError]);
+  }, [user, data, isError, dispatch]);
 
   if (isInitializing && user && isLoading) {
+    return <Loading fullScreen />;
+  }
+
+  if (isAuthChanging) {
     return <Loading fullScreen />;
   }
 

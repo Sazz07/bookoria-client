@@ -8,9 +8,12 @@ import {
 } from '@ant-design/icons';
 import { TBook } from '../../types';
 import { formatDate } from '../../utils/dateUtils';
-import { useAppDispatch } from '../../redux/hook';
+import { useAppDispatch, useAppSelector } from '../../redux/hook';
 import { addToCart } from '../../redux/features/cart/cartSlice';
 import { formatCurrency } from '../../utils/formatCurrency';
+import { selectCurrentUser } from '../../redux/features/auth/authSlice';
+import { ROLES } from '../../constants/global';
+import { toast } from 'sonner';
 
 type BookInfoProps = {
   book: TBook;
@@ -18,20 +21,29 @@ type BookInfoProps = {
 
 const BookInfo = ({ book }: BookInfoProps) => {
   const dispatch = useAppDispatch();
+  const user = useAppSelector(selectCurrentUser);
+  const isAdmin = user?.role === ROLES.ADMIN;
 
   const handleAddToCart = () => {
-    dispatch(addToCart(book));
+    if (!isAdmin) {
+      const userId = user?.userId || null;
+      dispatch(addToCart({ book, userId }));
+    } else {
+      toast.info(
+        'Admins cannot place orders. Please use a regular user account for shopping.'
+      );
+    }
   };
 
   return (
     <div className='flex flex-col h-full'>
       <div>
-        <h1 className='text-2xl md:text-3xl font-bold text-gray-800 mb-2'>
+        <h1 className='mb-2 text-2xl font-bold text-gray-800 md:text-3xl'>
           {book.title}
         </h1>
-        <h2 className='text-xl text-gray-600 mb-4'>by {book.author}</h2>
+        <h2 className='mb-4 text-xl text-gray-600'>by {book.author}</h2>
 
-        <div className='flex flex-wrap items-center gap-2 mb-4'>
+        <div className='flex flex-wrap gap-2 items-center mb-4'>
           <Tag color='blue' className='text-sm'>
             {book.genre}
           </Tag>
@@ -52,7 +64,7 @@ const BookInfo = ({ book }: BookInfoProps) => {
 
         <Divider className='my-4' />
 
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-4 mb-6'>
+        <div className='grid grid-cols-1 gap-4 mb-6 md:grid-cols-2'>
           <div className='flex items-center'>
             <BookOutlined className='mr-2 text-primary' />
             <span className='text-gray-700'>Publisher: </span>
@@ -77,7 +89,7 @@ const BookInfo = ({ book }: BookInfoProps) => {
           </div>
         </div>
 
-        <p className='text-gray-700 mb-6'>{book.description}</p>
+        <p className='mb-6 text-gray-700'>{book.description}</p>
       </div>
 
       <div className='mt-auto'>

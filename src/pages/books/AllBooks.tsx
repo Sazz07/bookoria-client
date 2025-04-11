@@ -1,34 +1,81 @@
 import { useState, useEffect } from 'react';
-import {
-  Select,
-  Button,
-  Pagination,
-  Empty,
-  Row,
-  Col,
-  Spin,
-  Drawer,
-} from 'antd';
+import { Select, Button, Pagination, Empty, Row, Col, Drawer } from 'antd';
 import { FilterOutlined, SortAscendingOutlined } from '@ant-design/icons';
 import { useGetBooksQuery } from '../../redux/features/book/book.api';
 import { TBook, TQueryParam } from '../../types';
-import { bookGenre } from '../../constants/global';
+import { bookGenre, sortOptions } from '../../constants/global';
 import BookCard from '../../components/books/BookCard';
 import FilterSidebar from '../../components/books/FilterSidebar';
+import { useSearchParams, useLocation } from 'react-router-dom';
+import Loading from '../../components/shared/Loading';
 
 const { Option } = Select;
 
 const AllBooks = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 10000]);
-  const [sortBy, setSortBy] = useState('');
-  const [showFeatured, setShowFeatured] = useState(false);
-  const [showDiscount, setShowDiscount] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const location = useLocation();
+
+  const [searchTerm, setSearchTerm] = useState(
+    searchParams.get('searchTerm') || ''
+  );
+  const [selectedGenres, setSelectedGenres] = useState<string[]>(
+    searchParams.get('genre') ? [searchParams.get('genre')!] : []
+  );
+  const [priceRange, setPriceRange] = useState<[number, number]>([
+    Number(searchParams.get('minPrice')) || 0,
+    Number(searchParams.get('maxPrice')) || 10000,
+  ]);
+  const [sortBy, setSortBy] = useState(searchParams.get('sort') || '');
+  const [showFeatured, setShowFeatured] = useState(
+    searchParams.get('featured') === 'true'
+  );
+  const [showDiscount, setShowDiscount] = useState(
+    searchParams.get('discount') === 'true'
+  );
   const [drawerVisible, setDrawerVisible] = useState(false);
 
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
+  const [page, setPage] = useState(Number(searchParams.get('page')) || 1);
+  const [limit, setLimit] = useState(Number(searchParams.get('limit')) || 10);
+
+  useEffect(() => {
+    const genre = searchParams.get('genre');
+    if (genre) {
+      if (genre.includes(',')) {
+        setSelectedGenres(genre.split(','));
+      } else {
+        setSelectedGenres([genre]);
+      }
+    } else {
+      setSelectedGenres([]);
+    }
+  }, [location.search, searchParams]);
+
+  useEffect(() => {
+    const params = new URLSearchParams();
+
+    if (page > 1) params.set('page', page.toString());
+    if (limit !== 10) params.set('limit', limit.toString());
+    if (searchTerm) params.set('searchTerm', searchTerm);
+    if (sortBy) params.set('sort', sortBy);
+    if (priceRange[0] > 0) params.set('minPrice', priceRange[0].toString());
+    if (priceRange[1] < 10000) params.set('maxPrice', priceRange[1].toString());
+    if (selectedGenres.length > 0)
+      params.set('genre', selectedGenres.join(','));
+    if (showFeatured) params.set('featured', 'true');
+    if (showDiscount) params.set('discount', 'true');
+
+    setSearchParams(params);
+  }, [
+    searchTerm,
+    selectedGenres,
+    priceRange,
+    sortBy,
+    showFeatured,
+    showDiscount,
+    page,
+    limit,
+    setSearchParams,
+  ]);
 
   const createQueryParams = (): TQueryParam[] => {
     const params: TQueryParam[] = [
@@ -48,7 +95,7 @@ const AllBooks = () => {
       params.push({ name: 'minPrice', value: priceRange[0] });
     }
 
-    if (priceRange[1] < 1000) {
+    if (priceRange[1] < 10000) {
       params.push({ name: 'maxPrice', value: priceRange[1] });
     }
 
@@ -118,11 +165,13 @@ const AllBooks = () => {
   const resetFilters = () => {
     setSearchTerm('');
     setSelectedGenres([]);
-    setPriceRange([0, 1000]);
+    setPriceRange([0, 10000]);
     setSortBy('');
     setShowFeatured(false);
     setShowDiscount(false);
     setPage(1);
+
+    setSearchParams(new URLSearchParams());
   };
 
   return (
@@ -136,7 +185,7 @@ const AllBooks = () => {
           type='primary'
           icon={<FilterOutlined />}
           onClick={() => setDrawerVisible(true)}
-          className='w-full'
+          className='!w-full'
         >
           Filters
         </Button>
@@ -168,48 +217,43 @@ const AllBooks = () => {
       </Drawer>
 
       <div className='grid grid-cols-1 gap-8 lg:grid-cols-4'>
-        <div className='hidden p-6 bg-white rounded-lg shadow-sm lg:block lg:col-span-1'>
-          <FilterSidebar
-            searchTerm={searchTerm}
-            priceRange={priceRange}
-            selectedGenres={selectedGenres}
-            showFeatured={showFeatured}
-            showDiscount={showDiscount}
-            bookGenre={bookGenre}
-            onSearch={handleSearch}
-            onPriceChange={handlePriceChange}
-            onMinPriceInput={handleMinPriceInput}
-            onMaxPriceInput={handleMaxPriceInput}
-            onGenreChange={handleGenreChange}
-            onFeaturedChange={setShowFeatured}
-            onDiscountChange={setShowDiscount}
-            onReset={resetFilters}
-          />
+        <div className='hidden lg:block lg:col-span-1'>
+          <div className='sticky top-4 p-6 bg-white rounded-lg shadow-sm'>
+            <FilterSidebar
+              searchTerm={searchTerm}
+              priceRange={priceRange}
+              selectedGenres={selectedGenres}
+              showFeatured={showFeatured}
+              showDiscount={showDiscount}
+              bookGenre={bookGenre}
+              onSearch={handleSearch}
+              onPriceChange={handlePriceChange}
+              onMinPriceInput={handleMinPriceInput}
+              onMaxPriceInput={handleMaxPriceInput}
+              onGenreChange={handleGenreChange}
+              onFeaturedChange={setShowFeatured}
+              onDiscountChange={setShowDiscount}
+              onReset={resetFilters}
+            />
+          </div>
         </div>
 
         <div className='lg:col-span-3'>
           <div className='flex flex-col justify-between items-start p-4 mb-6 bg-white rounded-lg shadow-sm sm:flex-row sm:items-center'>
             <div className='flex items-center mb-4 sm:mb-0'>
-              <SortAscendingOutlined className='mr-2' />
+              <SortAscendingOutlined className='!mr-2' />
               <span className='mr-2 font-medium'>Sort By:</span>
               <Select
                 value={sortBy}
                 onChange={handleSortChange}
                 style={{ width: 180 }}
                 placeholder='Select option'
+                allowClear
+                className='!mr-2'
               >
-                <Option value='price,asc'>Price: Low to High</Option>
-                <Option value='price,desc'>Price: High to Low</Option>
-                <Option value='title,asc'>Title: A to Z</Option>
-                <Option value='title,desc'>Title: Z to A</Option>
-                <Option value='createdAt,desc'>Newest First</Option>
-                <Option value='createdAt,asc'>Oldest First</Option>
-                <Option value='discountedPrice,asc'>
-                  Discount: Low to High
-                </Option>
-                <Option value='discountedPrice,desc'>
-                  Discount: High to Low
-                </Option>
+                {sortOptions.map((item) => (
+                  <Option value={item.value}>{item.label}</Option>
+                ))}
               </Select>
             </div>
 
@@ -224,15 +268,12 @@ const AllBooks = () => {
           </div>
 
           {isLoading || isFetching ? (
-            <div className='flex justify-center items-center h-64'>
-              <Spin size='large' />
-            </div>
+            <Loading fullScreen />
           ) : booksData?.data && booksData.data.length > 0 ? (
             <>
               <Row gutter={[12, 20]}>
                 {booksData.data.map((book: TBook) => (
                   <Col xs={12} sm={8} md={6} lg={6} key={book._id}>
-                    {/* Remove the onAddToCart prop */}
                     <BookCard book={book} />
                   </Col>
                 ))}
@@ -251,7 +292,7 @@ const AllBooks = () => {
           ) : (
             <Empty
               description='No books found matching your criteria'
-              className='p-8 bg-white rounded-lg'
+              className='!p-8 !bg-white !rounded-lg'
             />
           )}
         </div>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Row, Col, Empty, Image } from 'antd';
+import { Row, Col, Empty, Image, Tag } from 'antd';
 import { HomeOutlined, ReadOutlined } from '@ant-design/icons';
 import { useGetBookQuery } from '../../redux/features/book/book.api';
 import {
@@ -37,6 +37,18 @@ const BookDetails = () => {
 
   const { data: bookData, isLoading: bookLoading } = useGetBookQuery(bookId);
   const book = bookData?.data;
+
+  const getStockStatusColor = (stock: number) => {
+    if (stock === 0) return 'red';
+    if (stock <= 5) return 'orange';
+    return 'green';
+  };
+
+  const getStockStatusText = (stock: number) => {
+    if (stock === 0) return 'Out of Stock';
+    if (stock <= 5) return `Low Stock: ${stock} remaining`;
+    return `In Stock: ${stock} available`;
+  };
 
   const reviewQueryParams: TQueryParam[] = [
     { name: 'page', value: reviewPage },
@@ -219,6 +231,14 @@ const BookDetails = () => {
                   Featured
                 </div>
               )}
+              <div className='absolute bottom-0 left-0 z-10 px-2 py-1 m-2'>
+                <Tag
+                  color={getStockStatusColor(book.stock)}
+                  className='!text-sm !font-medium !px-3 !py-1'
+                >
+                  {getStockStatusText(book.stock)}
+                </Tag>
+              </div>
             </div>
           </Col>
 

@@ -11,19 +11,19 @@ const { Title, Text, Paragraph } = Typography;
 
 const features = [
   {
-    icon: <BookOutlined className='text-2xl text-primary' />,
+    icon: <BookOutlined className='!text-2xl !text-primary' />,
     title: 'Extensive Collection',
     description:
       'Discover thousands of titles across all genres, from bestsellers to rare finds.',
   },
   {
-    icon: <ShoppingOutlined className='text-2xl text-primary' />,
+    icon: <ShoppingOutlined className='!text-2xl !text-primary' />,
     title: 'Fast Delivery',
     description:
       'Get your books delivered to your doorstep within 2-3 business days.',
   },
   {
-    icon: <CustomerServiceOutlined className='text-2xl text-primary' />,
+    icon: <CustomerServiceOutlined className='!text-2xl !text-primary' />,
     title: 'Expert Recommendations',
     description:
       'Our team of book lovers is always ready to help you find your next great read.',

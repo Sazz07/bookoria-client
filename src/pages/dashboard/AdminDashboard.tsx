@@ -312,11 +312,7 @@ const AdminDashboard = () => {
                           icon={!user?.image && <UserOutlined />}
                         />
                       }
-                      title={
-                        <Link to={`/dashboard/manage-users?id=${user._id}`}>
-                          {user?.fullName}
-                        </Link>
-                      }
+                      title={<span>{user?.fullName}</span>}
                       description={
                         <div className='!flex !items-center !gap-2'>
                           <Text type='secondary'>{user.email}</Text>

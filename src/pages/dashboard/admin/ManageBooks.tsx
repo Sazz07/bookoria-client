@@ -10,6 +10,7 @@ import {
   Typography,
   Pagination,
   Checkbox,
+  Switch,
 } from 'antd';
 import {
   DeleteOutlined,
@@ -269,6 +270,23 @@ const ManageBooks = () => {
       sorter: (a: TBook, b: TBook) => a.stock - b.stock,
     },
     {
+      title: 'Featured',
+      dataIndex: 'featured',
+      key: 'featured',
+      render: (featured: boolean, item: TBook) => (
+        <Switch
+          checked={featured}
+          onChange={(checked) => handleToggleFeatured(item._id, checked)}
+          loading={featuredLoading === item._id}
+        />
+      ),
+      filters: [
+        { text: 'Featured', value: true },
+        { text: 'Not Featured', value: false },
+      ],
+      onFilter: (value, record) => record.featured === value,
+    },
+    {
       title: 'Actions',
       key: 'actions',
       render: (item: TBook) => (
@@ -293,6 +311,29 @@ const ManageBooks = () => {
       ),
     },
   ];
+
+  // Add this new function to handle toggling featured status
+  const [featuredLoading, setFeaturedLoading] = useState<string | null>(null);
+
+  const handleToggleFeatured = async (id: string, featured: boolean) => {
+    setFeaturedLoading(id);
+    try {
+      const result = await editBook({
+        id,
+        body: { featured },
+      }).unwrap();
+
+      if (result.success) {
+        toast.success(
+          `Book ${featured ? 'marked as featured' : 'removed from featured'}`
+        );
+      }
+    } catch {
+      toast.error('Failed to update featured status');
+    } finally {
+      setFeaturedLoading(null);
+    }
+  };
 
   return (
     <div>

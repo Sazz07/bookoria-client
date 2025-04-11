@@ -49,3 +49,14 @@ export const orderStatusOptions = [
   { value: 'Delivered', color: 'green' },
   { value: 'Cancelled', color: 'red' },
 ];
+
+export const sortOptions = [
+  { value: 'price,asc', label: 'Price: Low to High' },
+  { value: 'price,desc', label: 'Price: High to Low' },
+  { value: 'title,asc', label: 'Title: A to Z' },
+  { value: 'title,desc', label: 'Title: Z to A' },
+  { value: 'createdAt,desc', label: 'Newest First' },
+  { value: 'createdAt,asc', label: 'Oldest First' },
+  { value: 'discountedPrice,asc', label: 'Discount: Low to High' },
+  { value: 'discountedPrice,desc', label: 'Discount: High to Low' },
+];

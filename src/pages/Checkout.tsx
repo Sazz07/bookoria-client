@@ -21,7 +21,10 @@ import {
 import { toast } from 'sonner';
 import { TShippingAddress } from '../types';
 import PageBreadcrumb from '../components/shared/PageBreadcrumb';
-import { selectUserProfile } from '../redux/features/auth/authSlice';
+import {
+  selectCurrentUser,
+  selectUserProfile,
+} from '../redux/features/auth/authSlice';
 import CartReview from '../components/checkout/CartReview';
 import ShippingForm from '../components/checkout/ShippingForm';
 import PaymentMethod from '../components/checkout/PaymentMethod';
@@ -47,6 +50,9 @@ const Checkout = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+  const user = useAppSelector(selectCurrentUser);
+
+  const userId = user?.userId || null;
 
   const [createOrder, { isLoading }] = useCreateOrderMutation();
 
@@ -58,10 +64,10 @@ const Checkout = () => {
     if (orderIdFromUrl && location.pathname === '/payment-verification') {
       setOrderId(orderIdFromUrl);
       setCurrentStep(3);
-      dispatch(clearCart());
+      dispatch(clearCart(userId));
       toast.success('Payment completed! Verifying your order...');
     }
-  }, [location, dispatch]);
+  }, [location, dispatch, userId]);
 
   const { data: paymentVerificationData } = useVerifyPaymentQuery(
     orderId as string,
@@ -136,7 +142,7 @@ const Checkout = () => {
 
       if (paymentMethod === 'Cash On Delivery') {
         setOrderId(response.data.order._id);
-        dispatch(clearCart());
+        dispatch(clearCart(userId));
         setCurrentStep(3);
         toast.success('Order placed successfully!');
       } else {

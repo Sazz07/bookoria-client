@@ -21,7 +21,7 @@ import {
   AppstoreOutlined,
 } from '@ant-design/icons';
 import { cn } from '../../utils/cn';
-import { bookGenre } from '../../constants/global';
+import { bookGenre, ROLES } from '../../constants/global';
 import {
   logout,
   selectCurrentUser,
@@ -33,7 +33,7 @@ import {
   selectCartItemsCount,
   toggleCart,
 } from '../../redux/features/cart/cartSlice';
-import { useLoginMutation } from '../../redux/features/auth/auth.api';
+import { useLogoutMutation } from '../../redux/features/auth/auth.api';
 import Logo from '../shared/Logo';
 
 export default function Navbar() {
@@ -44,17 +44,24 @@ export default function Navbar() {
   const cartItemsCount = useAppSelector(selectCartItemsCount);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [logoutMutation] = useLoginMutation();
+  const [logoutMutation, { isLoading: isLoggingOut }] = useLogoutMutation();
 
   const showCart = () => {
     dispatch(toggleCart(true));
   };
 
   const handleLogout = async () => {
-    dispatch(logout());
-    await logoutMutation(undefined).unwrap();
-    navigate('/login');
-    setIsMenuOpen(false);
+    try {
+      await logoutMutation(undefined).unwrap();
+
+      dispatch(logout());
+      navigate('/login');
+      setIsMenuOpen(false);
+    } catch {
+      dispatch(logout());
+      navigate('/login');
+      setIsMenuOpen(false);
+    }
   };
 
   useEffect(() => {
@@ -67,7 +74,7 @@ export default function Navbar() {
 
   const categories = bookGenre.map((genre) => ({
     name: genre,
-    href: `/books?category=${genre.toLowerCase().replace(/ /g, '-')}`,
+    href: `/books?genre=${genre}`,
   }));
 
   const items: MenuProps['items'] = [
@@ -79,6 +86,7 @@ export default function Navbar() {
           type='primary'
           onClick={handleLogout}
           style={{ backgroundColor: '#8C5E58', width: '100%' }}
+          loading={isLoggingOut}
         >
           Logout
         </Button>
@@ -121,6 +129,14 @@ export default function Navbar() {
                             <Link
                               to={category.href}
                               className='text-sm hover:text-[#8C5E58]'
+                              onClick={(e) => {
+                                e.preventDefault();
+                                navigate(
+                                  `/books?genre=${encodeURIComponent(
+                                    category.name
+                                  )}`
+                                );
+                              }}
                             >
                               {category.name}
                             </Link>
@@ -133,7 +149,7 @@ export default function Navbar() {
                   placement='bottom'
                 >
                   <span className='px-4 py-2 text-sm font-medium cursor-pointer hover:text-primary'>
-                    Categories
+                    Genres
                   </span>
                 </Popover>
 
@@ -153,7 +169,7 @@ export default function Navbar() {
             </div>
 
             <div className='hidden md:flex md:items-center md:space-x-4'>
-              {user && (
+              {user && user.role === ROLES.USER && (
                 <Badge count={cartItemsCount} size='small' offset={[0, 3]}>
                   <Button
                     type='text'
@@ -185,7 +201,7 @@ export default function Navbar() {
             </div>
 
             <div className='flex md:hidden'>
-              {user && (
+              {user && user.role === ROLES.USER && (
                 <Badge
                   count={cartItemsCount}
                   size='small'
@@ -211,7 +227,6 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Mobile Navigation - Using Ant Design Drawer instead of custom implementation */}
         <Drawer
           placement='right'
           closable={false}
@@ -263,22 +278,24 @@ export default function Navbar() {
                   <InfoCircleOutlined className='mr-3' />
                   About
                 </Link>
-                <button
-                  onClick={() => {
-                    showCart();
-                    setIsMenuOpen(false);
-                  }}
-                  className='flex items-center text-lg font-medium text-gray-800 hover:text-primary'
-                >
-                  <ShoppingCartOutlined className='mr-3' />
-                  Cart {cartItemsCount > 0 && `(${cartItemsCount})`}
-                </button>
+                {user && user.role === ROLES.USER && (
+                  <button
+                    onClick={() => {
+                      showCart();
+                      setIsMenuOpen(false);
+                    }}
+                    className='flex items-center text-lg font-medium text-gray-800 hover:text-primary'
+                  >
+                    <ShoppingCartOutlined className='mr-3' />
+                    Cart {cartItemsCount > 0 && `(${cartItemsCount})`}
+                  </button>
+                )}
               </div>
 
               <div className='py-4 border-t border-gray-100'>
                 <h3 className='flex items-center mb-4 text-lg font-semibold text-gray-800'>
                   <AppstoreOutlined className='mr-2' />
-                  Browse Categories
+                  Browse Genres
                 </h3>
                 <div className='grid grid-cols-1 gap-y-3'>
                   {categories.map((category) => (
@@ -286,7 +303,13 @@ export default function Navbar() {
                       key={category.name}
                       to={category.href}
                       className='pl-2 text-base text-gray-600 border-l-2 border-gray-200 transition-colors hover:text-primary'
-                      onClick={() => setIsMenuOpen(false)}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigate(
+                          `/books?genre=${encodeURIComponent(category.name)}`
+                        );
+                        setIsMenuOpen(false);
+                      }}
                     >
                       {category.name}
                     </Link>
@@ -331,6 +354,7 @@ export default function Navbar() {
                         block
                         style={{ height: '40px' }}
                         onClick={handleLogout}
+                        loading={isLoggingOut}
                       >
                         Logout
                       </Button>

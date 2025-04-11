@@ -1,8 +1,9 @@
-import { Typography, Row, Col, Spin, Empty } from 'antd';
+import { Typography, Row, Col, Empty } from 'antd';
 import { ArrowRightOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import { useGetBooksQuery } from '../../redux/features/book/book.api';
 import BookCard from '../books/BookCard';
+import Loading from '../shared/Loading';
 
 const { Title, Text } = Typography;
 
@@ -35,9 +36,7 @@ const RecentlyAddedBooks = () => {
       </div>
 
       {isLoading ? (
-        <div className='flex justify-center py-12'>
-          <Spin size='large' />
-        </div>
+        <Loading />
       ) : booksData?.data?.length === 0 ? (
         <Empty description='No books available' />
       ) : (

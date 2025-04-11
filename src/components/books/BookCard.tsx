@@ -2,9 +2,12 @@ import { Card, Rate, Tag, Button, Typography } from 'antd';
 import { Link } from 'react-router-dom';
 import { ShoppingCartOutlined } from '@ant-design/icons';
 import { TBook } from '../../types';
-import { useAppDispatch } from '../../redux/hook';
+import { useAppDispatch, useAppSelector } from '../../redux/hook';
 import { addToCart } from '../../redux/features/cart/cartSlice';
 import { formatCurrency } from '../../utils/formatCurrency';
+import { selectCurrentUser } from '../../redux/features/auth/authSlice';
+import { ROLES } from '../../constants/global';
+import { toast } from 'sonner';
 
 const { Text, Title } = Typography;
 
@@ -14,11 +17,34 @@ type BookCardProps = {
 
 const BookCard = ({ book }: BookCardProps) => {
   const dispatch = useAppDispatch();
+  const user = useAppSelector(selectCurrentUser);
+  const isAdmin = user?.role === ROLES.ADMIN;
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    dispatch(addToCart(book));
+
+    if (!isAdmin) {
+      const userId = user?.userId || null;
+      dispatch(addToCart({ book, userId }));
+    } else {
+      e.preventDefault();
+      toast.info(
+        'Admins cannot place orders. Please use a regular user account for shopping.'
+      );
+    }
+  };
+
+  const getStockStatusColor = (stock: number) => {
+    if (stock === 0) return 'red';
+    if (stock <= 5) return 'orange';
+    return 'green';
+  };
+
+  const getStockStatusText = (stock: number) => {
+    if (stock === 0) return 'Out of Stock';
+    if (stock <= 5) return `Low Stock: ${stock}`;
+    return `In Stock: ${stock}`;
   };
 
   return (
@@ -90,6 +116,9 @@ const BookCard = ({ book }: BookCardProps) => {
           <div className='!mb-3'>
             <Tag color='blue' className='!mr-1'>
               {book.genre}
+            </Tag>
+            <Tag color={getStockStatusColor(book.stock)} className='!mr-1'>
+              {getStockStatusText(book.stock)}
             </Tag>
           </div>
 

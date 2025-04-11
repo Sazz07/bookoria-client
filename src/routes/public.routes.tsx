@@ -11,6 +11,8 @@ import Login from '../pages/auth/Login';
 import Register from '../pages/auth/Register';
 import AllBooks from '../pages/books/AllBooks';
 import BookDetails from '../pages/books/BookDetails';
+
+// Protected Pages
 import Checkout from '../pages/Checkout';
 
 export const publicRoutes: RouteObject = {
@@ -52,14 +54,18 @@ export const publicRoutes: RouteObject = {
     {
       path: 'checkout',
       element: (
-        <ProtectedRoute allowedRoles={[ROLES.USER, ROLES.ADMIN]}>
+        <ProtectedRoute allowedRoles={[ROLES.USER]}>
           <Checkout />
         </ProtectedRoute>
       ),
     },
     {
       path: 'payment-verification',
-      element: <Checkout />,
+      element: (
+        <ProtectedRoute allowedRoles={[ROLES.USER]}>
+          <Checkout />
+        </ProtectedRoute>
+      ),
     },
   ],
 };
